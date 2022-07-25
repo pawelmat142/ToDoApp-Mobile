@@ -1,0 +1,99 @@
+<ion-header class="header-pink">
+  <ion-toolbar>
+    <ion-title>Nowe konto</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-back-button defaultHref="/" size="large"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<!-- CONTENT -->
+<ion-content>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    <!-- NAME -->
+      <ion-item lines="none">
+  
+        <ion-label position="floating" color="secondary">Imię/nick</ion-label>
+        <ion-input formControlName="nickname" type="text" required color="light"></ion-input>
+  
+        <ion-buttons slot="end" *ngIf="f.nickname.value">
+          <ion-icon 
+            name="close-circle-outline" 
+            size="large" 
+            [color]="f.nickname.invalid && f.nickname.touched?'danger':'secondary'"
+            (click)="f.nickname.setValue('')"
+          ></ion-icon>
+        </ion-buttons>
+        
+      </ion-item>
+
+      <ng-container *ngIf="f.nickname.touched && f.nickname.errors">
+        <ion-note *ngIf="f.nickname.errors.required" slot="error" color="danger">Imię lub nick są wymagane!</ion-note>
+        <ion-note *ngIf="f.nickname.errors.minlength" slot="error" color="danger">Imię lub nick powinny mieć przynajmniej 3 znaki!</ion-note>
+      </ng-container>
+      
+      
+      <!-- PASSWORD -->
+        <ion-item lines="none">
+    
+          <ion-label position="floating" color="secondary">Hasło</ion-label>
+          <ion-input formControlName="password" type="password" required color="light"></ion-input>
+    
+          <ion-buttons slot="end" *ngIf="f.password.value">
+            <ion-icon 
+              name="close-circle-outline" 
+              size="large" 
+              [color]="f.password.invalid && f.password.touched?'danger':'secondary'"
+              (click)="f.password.setValue('')"
+            ></ion-icon>
+          </ion-buttons>
+    
+        </ion-item>
+
+        <ng-container *ngIf="f.password.touched && f.password.errors">
+          <ion-note *ngIf="f.password.errors.required" slot="error" color="danger">Hasło jest wymagane!</ion-note>
+          <ion-note *ngIf="f.password.errors.minlength" slot="error" color="danger">Hasło powinno zawierać przynajmniej 3 znaki!</ion-note>
+        </ng-container>
+        
+    
+      <!-- confirmPassword -->
+        <ion-item lines="none">
+    
+          <ion-label position="floating" color="secondary">Powtórz hasło</ion-label>
+          <ion-input formControlName="confirmPassword" type="password" required color="light"></ion-input>
+    
+          <ion-buttons slot="end" *ngIf="f.confirmPassword.value">
+            <ion-icon 
+              name="close-circle-outline" 
+              size="large" 
+              [color]="f.confirmPassword.invalid && f.confirmPassword.touched?'danger':'secondary'"
+              (click)="f.confirmPassword.setValue('')"
+            ></ion-icon>
+          </ion-buttons>
+    
+        </ion-item>
+
+        <ion-note *ngIf="f.confirmPassword.touched && f.confirmPassword.errors" slot="error" color="danger">Podane hasła nie zgadzają się!</ion-note>
+        
+        <ion-item lines="none" class="item-input" (click)="f.online.setValue(!this.f.online.value)">
+          <ion-label color="secondary">{{f.online.value ? 'Tryb online' : 'Tryb offline'}}</ion-label>
+          <ion-toggle color="secondary" slot="end" formControlName="online" (click)="f.online.setValue(!this.f.online.value)"></ion-toggle>
+        </ion-item>
+        
+        <ion-note *ngIf="!this.f.online.value" slot="error" color="danger">W trybie offline Twoje dane będą dostępne tylko na tym urządzeniu. Istnieje ryzyko utraty danych.</ion-note>
+        <ion-note *ngIf="this.f.online.value" slot="error" color="secondary">W trybie online Twoje dane będą dostępne na każdym urządeniu po zalogowaniu.</ion-note>
+  
+    <!-- SUBMIT -->
+      <ion-button class="ion-margin-top" type="submit" expand="block" size="large" color="secondary" #submit>ZAREJESTRUJ</ion-button>
+      
+    <!-- ERRORS -->
+      <ion-text *ngIf="message" class="form-message" [color]="messageErr?'danger':'success'">
+        <p>{{message}}</p>
+      </ion-text>
+  
+    </form>
+
+</ion-content>

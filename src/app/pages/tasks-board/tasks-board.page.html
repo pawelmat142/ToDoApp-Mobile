@@ -1,0 +1,51 @@
+<ion-header class="header-pink">
+  <ion-toolbar>
+    <ion-title color="light">Lista Zadań</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/menu" color="light">
+        <ion-icon slot="icon-only" name="list"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-reorder-group *ngIf="tasks && tasks.length" disabled="false" (ionItemReorder)="doReorder($event)">
+    <ion-reorder *ngFor="let task of tasks; index as index" class="tile-container">
+      <app-task 
+        [task]="task" 
+        [index]="index" 
+        class="tile"
+      ></app-task>
+    </ion-reorder>
+  </ion-reorder-group>
+
+  <ng-container *ngIf="!tasks?.length">
+    <ion-item class="tile-container" button *ngIf="filter === 'todo'" (click)="filter='done'" class="msg">
+      <ion-text color="light">Nie masz zadań do zrobienia.<br> Przejdź do skończonych</ion-text>
+      <ion-button slot="end" fill="clear">
+        <ion-icon name="checkmark-circle" color="success" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-item class="tile-container" button *ngIf="filter === 'done'" (click)="filter='todo'" class="msg">
+      <ion-text color="light">Nie masz skończonych zadań.<br> Przejdź do zadań do zrobienia.</ion-text>
+      <ion-button slot="end" fill="clear">
+        <ion-icon name="close-circle" color="primary" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ng-container>
+  
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="secondary" routerLink="/add-task">
+      <ion-icon name="add-sharp" size="large"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary" (click)="logout()">
+      <ion-icon name="log-out" size="large"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

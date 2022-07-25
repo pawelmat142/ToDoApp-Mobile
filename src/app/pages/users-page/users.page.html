@@ -1,0 +1,36 @@
+<ion-header class="header-pink">
+  <ion-toolbar>
+    <ion-title>Wybierz użytkownika</ion-title>
+    <ion-buttons slot="secondary">
+      <!-- <ion-back-button defaultHref="/" size="large"></ion-back-button> -->
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ng-container *ngIf="users && users.length">
+    <button
+      *ngFor="let user of users; let i = index"
+      (click)="chooseUser(user)"
+      class="tile-container user"
+    >
+      <span>{{user.nickname}}</span>
+
+      <ion-icon [name]="user.online?'globe-outline':'server-outline'" size="large" color="light"></ion-icon>
+
+    </button>
+  </ng-container>
+
+  <!-- <div *ngIf="!users || !users.length" class="tile-container user">
+    <span>brak</span>
+  </div> -->
+
+  <ion-button class="ion-margin-top" type="button" expand="block" size="large" color="tertiary" routerLink="/register">Nowy użytkownik</ion-button>
+  
+  <!-- ERRORS -->
+  <ion-text *ngIf="message" class="form-message" [color]="messageErr?'danger':'success'">
+    <p>{{message}}</p>
+  </ion-text>
+
+</ion-content>

@@ -1,0 +1,89 @@
+ion-accordion-group {
+    border-radius: 0.4em;
+    transition: .15s ease-in-out;
+    &.important {
+        border: 1px solid var(--ion-color-warning);
+    }
+}
+
+ion-accordion {
+    background: transparent;
+    color: var(--ion-color-light);
+    
+    header {
+        padding: .5em 0;
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 8fr 1fr minmax(0, 2fr);
+        align-items: center;
+        width: 100%;
+        border-radius: 0.4em;
+
+        &.expanded {
+            grid-template-columns: 1fr;
+        }
+
+        .name {
+            padding-left: 1.2em;
+            width: 100%;
+            text-align: start;
+            // line-height: 4em;
+            min-height: 3em;
+            display: flex;
+            align-items: center;
+        }
+
+        .deadline {
+            text-align: center;
+        }
+    }
+
+    .accordion {
+        ion-tab-bar {
+            --background: transparent;
+        }
+
+        .deadline {
+            padding: 0em 1em .2em 0;
+            text-align: end;
+        }
+
+        // SUBTASKS
+        ion-item,
+        ion-list {
+            background: transparent;
+            --background: transparent;
+        }
+
+        ion-list {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        
+        ion-button {
+            width: 100%;
+            text-transform: none;
+            margin: 0;
+            padding: 0 1em;
+
+            div {
+                width: 100%;
+                display: flex;
+                align-items: center;
+            }
+
+            ion-icon {
+                width: 1.2em;
+                height: 1.2em;
+            }
+
+            ion-text {
+                padding-left: .6em;
+                color: var(--ion-color-light);
+            }
+        }
+
+    }
+
+}

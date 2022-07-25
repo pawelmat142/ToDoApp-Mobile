@@ -1,0 +1,113 @@
+<ion-header class="header-pink">
+  <ion-toolbar>
+    <ion-title color="light">Dodaj zadanie</ion-title>
+    <ion-buttons slot="secondary" color="light">
+      <ion-back-button defaultHref="/tasks" size="large" color="light"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form 
+    [formGroup]="addingForm" 
+    (ngSubmit)="onSubmit()" 
+    (keyup.escape)="addingForm.reset()"
+    (focusout)="onFocusout()"
+  >
+
+    <!-- CONTENT/NAME -->
+    <ion-item lines="none">
+    
+      <ion-label position="floating" color="secondary">Treść zadania</ion-label>
+      <ion-input formControlName="name" type="text" required color="light" #taskInputRef></ion-input>
+
+      <ion-buttons slot="end" *ngIf="f.name.value">
+        <ion-icon 
+          name="close-circle-outline" 
+          size="large" 
+          [color]="f.name.invalid && f.name.touched?'danger':'secondary'"
+          (click)="f.name.setValue('')"
+        ></ion-icon>
+      </ion-buttons>
+      
+    </ion-item>
+
+    <ng-container *ngIf="f.name.touched && f.name.errors">
+      <ion-note *ngIf="f.name.errors.required" slot="error" color="danger">Treść zadania jest wymagana!</ion-note>
+      <ion-note *ngIf="f.name.errors.maxlength" slot="error" color="danger">Maksymalnie 100 znaków!</ion-note>
+    </ng-container>
+
+
+    <!-- DEADLINE -->
+    <ion-accordion-group #accordionRef>
+      <ion-accordion value="first" class="item-input">
+
+        <ion-item slot="header" class="tile-bg">
+          <ion-label color="secondary">{{f.deadline?.value? ('Termin: '+f.deadline?.value): 'Temin'}}</ion-label>
+        </ion-item>
+
+        <div class="ion-padding content" slot="content">
+          <ion-datetime
+            #datetimeReference
+            name="Termin"
+            type="text" 
+            color="secondary" 
+            showDefaultButtons
+            cancelText="Wyczyść"
+            doneText="Akceptuj"
+            (ionChange)="onDeadlineChange($event)"
+            (ionCancel)="onDeadlineCanel()"
+          ></ion-datetime>
+        </div>
+
+      </ion-accordion>
+    </ion-accordion-group>
+
+
+    <!-- TOGGLES -->
+    <div class="toggles-row">
+      <ion-item>
+        <ion-label color="secondary">Zrobione</ion-label>
+        <ion-toggle color="success" formControlName="done"></ion-toggle>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label color="secondary">Ważne</ion-label>
+        <ion-toggle color="warning" formControlName="important"></ion-toggle>
+      </ion-item>
+    </div>
+
+    
+    
+  <!-- SUBTASKS -->
+  <ng-container *ngFor="let subtask of subtasks; let i = index">
+    <ion-item lines="none" class="item-input">
+      
+      <ion-label position="floating" color="secondary">Etap {{i+1}}</ion-label>
+      <ion-input type="text" required color="light" #subtaskInputReference formControlName={{subtask?subtask:null}}></ion-input>
+      
+      <ion-buttons slot="end">
+        <ion-icon 
+        name="close-circle-outline" 
+        size="large"
+        [color]="this.f[subtask]?.invalid && this.f[subtask].touched?'danger':'secondary'"
+        (click)="$event.preventDefault();removeSubtask(subtask)"
+        ></ion-icon>
+      </ion-buttons>
+      
+    </ion-item>
+
+    <ng-container *ngIf="this.f[subtask]?.touched && this.f[subtask].errors">
+      <ion-note *ngIf="this.f[subtask].errors.required" slot="error" color="danger">Uzupełnij lub usuń pole!</ion-note>
+      <ion-note *ngIf="this.f[subtask].errors.maxlength" slot="error" color="danger">Maksymalnie 50 znaków!</ion-note>
+    </ng-container>
+
+  </ng-container>
+  
+  
+  <ion-button class="ion-margin-top" type="button" expand="block" size="large" [disabled]="addingForm.invalid" color="secondary" (click)="onSubmit()">Dodaj Zadanie</ion-button>
+  
+  <ion-button class="ion-margin-top" type="submit" expand="block" color="tertiary" (click)="addSubtask()">Dodaj etap</ion-button>
+</form>
+  
+</ion-content>

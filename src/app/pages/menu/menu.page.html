@@ -1,0 +1,80 @@
+<ion-header class="header-pink">
+  <ion-toolbar>
+    <ion-title color="light">Menu</ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button defaultHref="/" color="light"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+
+    <!-- account -->
+    <ion-list-header lines="none">
+      <ion-title color="secondary">Konto</ion-title>
+    </ion-list-header>
+    
+    <ion-item button class="tile" lines="none" routerLink="/manual">
+      <ion-icon name="apps" slot="start" size="large" color="secondary"></ion-icon>
+      <ion-title color="light">Instrukcja</ion-title>
+    </ion-item>
+
+    <ion-item button class="tile" lines="none" (click)="logout()">
+      <ion-icon name="log-out" slot="start" size="large" color="warning"></ion-icon>
+      <ion-title color="light">Wyloguj</ion-title>
+    </ion-item>
+
+
+    <ion-item button class="tile" lines="none" (click)="deleteAccount()">
+      <ion-icon name="person-remove" slot="start" size="large" color="danger"></ion-icon>
+      <ion-title color="light">Usuń konto</ion-title>
+    </ion-item>
+
+
+    <!-- tasks -->
+    <ion-list-header lines="none">
+      <ion-title color="secondary">Zadania</ion-title>
+    </ion-list-header>
+    
+    <ion-item button class="tile" lines="none" (click)="setTasksFilter('all')">
+      <ion-icon name="checkmark-done-circle" slot="start" size="large" color="secondary"></ion-icon>
+      <ion-title color="light">Wszystkie</ion-title>
+    </ion-item>
+    
+    <ion-item button class="tile" lines="none" (click)="setTasksFilter('todo')">
+      <ion-icon name="close-circle" slot="start" size="large" color="primary"></ion-icon>
+      <ion-title color="light">Do zrobienia</ion-title>
+    </ion-item>
+
+    <ion-item button class="tile" lines="none" (click)="setTasksFilter('done')">
+      <ion-icon name="checkmark-circle" slot="start" size="large" color="success"></ion-icon>
+      <ion-title color="light">Skończone</ion-title>
+    </ion-item>
+        
+    <ion-item button class="tile" lines="none" routerLink="/add-task">
+      <ion-icon name="add-circle" slot="start" size="large" color="warning"></ion-icon>
+      <ion-title color="light">Dodaj</ion-title>
+    </ion-item>
+    
+    <ion-item button class="tile" lines="none" (click)="deleteAllTasks()">
+      <ion-icon name="trash" slot="start" size="large" color="danger"></ion-icon>
+      <ion-title color="light">Usuń wszystkie</ion-title>
+    </ion-item>
+
+
+    <!-- notes -->
+    <ion-list-header lines="none">
+      <ion-title color="secondary">Notatki</ion-title>
+    </ion-list-header>
+    
+    <ion-item button class="tile" lines="none" routerLink="/notes">
+      <ion-icon name="reader" slot="start" size="large" color="primary"></ion-icon>
+      <ion-title color="light">Notatki</ion-title>
+    </ion-item>
+    
+
+  </ion-list>
+
+</ion-content>

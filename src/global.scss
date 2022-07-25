@@ -24,3 +24,177 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+* {
+    letter-spacing: .15em;
+    line-height: 1.5;
+}
+
+// HEADER
+
+.header-pink {
+
+    ion-toolbar {
+        --background: linear-gradient(4deg,#7B25FB,#AC38FA);
+        --color: var(--ion-color-light);
+
+        ion-title {
+            font-size: 26px;
+            padding-top: .7em;
+            padding-bottom: .7em;
+        }
+    }
+}
+
+
+// CONTENT
+
+ion-content {
+    --background: 70px url(assets/bg-pattern.svg),#2b2f33 fixed 70px;
+    --padding-start: .5em;
+    --padding-end: .5em;
+}
+
+
+ion-item {
+    --background: transparent;
+    background: var(--color-bg-main);
+    border-radius: 0.4em;
+
+    &.msg {
+        margin-top: .6em;
+        padding-top: .6em;
+        padding-bottom: .6em;
+    }
+}
+
+
+// TILES
+.tile-container {
+    width: 100%;
+    margin-top: .7em;
+    border-radius: 0.4em;
+    background: var(--color-bg-main);
+    box-shadow: var(--color-bg-main) 1.95px 1.95px 2.6px;
+    
+    &.reorder-selected {
+        transition: .15s ease-in-out;
+        // background: var(--color-bg-pink-trans);
+    }
+
+    &.user {
+        background: var(--color-bg-main);
+        padding: 0;
+        margin-top: .8em;
+        height: 65px;
+        padding: 0 1.4em;
+        transition: .05s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        span {
+            font-size: 25px;
+            color: var(--ion-color-light);
+            letter-spacing: .1em;
+        }
+
+    }
+}
+
+
+// FOMRS
+
+.form-padding {
+    padding: 10px 2.5%;
+}
+
+form {
+    color: var(--ion-color-light);
+
+    ion-accordion {
+        background: transparent;
+        border-radius: 0.4em;
+
+        .content {
+            background: #080a0bbd;
+            padding-top: 0;
+        }
+
+        ion-icon {
+            color: var(--ion-color-secondary);
+        }
+
+        ion-datetime {
+            background: transparent;
+        }
+
+    }
+    
+    .form-message p {
+        width: 100%;
+        padding: .6em 0;
+        background: #080a0bbd;
+        border-radius: 0.4em;
+        box-shadow: #00000026 1.95px 1.95px 2.6px;
+        text-align: center;
+    }
+    
+}
+
+.item-input {
+    margin-top: 15px;
+    border-radius: 0.4em;
+    box-shadow: #00000026 1.95px 1.95px 2.6px;
+
+    ion-input {
+        --color: var(--ion-color-light);
+    }
+
+    &.ios ion-buttons {
+        margin-top: 18px;
+    }
+    &.md ion-buttons {
+        margin-top: 11px;
+    }
+}
+
+.toggles-row {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin-top: .8em;
+
+    ion-item {
+        border-radius: 0.4em;
+    }
+}
+
+// END FORMS
+
+
+
+// INTERFACES 
+
+// ALERT 
+.my-alert-wrapper .alert-wrapper {
+    background: var(--ion-color-dark);
+    color: var(--ion-color-secondary);
+
+    .alert-title,
+    .alert-button {
+        color: var(--ion-color-secondary);
+    }
+    
+    .alert-sub-title {
+        color: var(--ion-color-tertiary);
+    }
+
+    .alert-message {
+        color: var(--ion-color-light);
+    }
+}
+
+
+

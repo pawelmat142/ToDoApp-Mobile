@@ -1,0 +1,10 @@
+ion-list {
+    background: transparent;
+    
+    ion-item {
+        --background: var(--color-bg-main);
+        background: var(--color-bg-main);
+        margin-bottom: .2em;
+        border-radius: .4em;
+    }
+}
