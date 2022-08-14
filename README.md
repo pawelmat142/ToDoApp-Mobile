@@ -1,6 +1,6 @@
 # To-Do List
 
-  Mobile version of my ToDo List App made with Ionic v6.
+  Mobile version of my ToDo List App made with Ionic.
  
 ## Table of contents
 * [General info](#general-info)
