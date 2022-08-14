@@ -27,7 +27,7 @@ To run this project locally follow these steps:
 * create directory named as you wish and open it with IDE
 * install it locally using npm:
 ```
-$ git clone https://github.com/pawelmat142/ToDo-List-Full.git ./
+$ git clone https://github.com/pawelmat142/ToDoApp-Mobile.git ./
 $ ionic serve
 ```
-* it should open `xxx`
+* it should open `http://localhost:8100/` automatically
