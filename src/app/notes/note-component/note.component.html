@@ -1,0 +1,64 @@
+<ion-accordion-group #accordionRef class="tile note" [ngClass]="{important: noteImportant}" (ionChange)="accordion()">
+  <ion-accordion value="{{index}}">
+
+      <!-- HEADER -->
+      <header slot="header" class="ion-activatable ripple-parent" color="secondary" [ngClass]="{expanded: accordionExpanded}">
+          <ion-text class="name" color="light">{{note.title}}</ion-text>
+          <ion-ripple-effect></ion-ripple-effect>
+        </header>
+        
+        <!-- ACCORDION -->
+      <div class="ion-padding" slot="content" class="accordion">
+
+               
+        <!-- paragraphs -->
+        <ion-list>
+          <ion-item *ngFor="let par of paragraphs" class="paragraph">
+            <ion-text color="secondary" *ngIf="par.title">{{par.title}}</ion-text>
+            <ion-text color="light">{{par.content}}</ion-text>
+          </ion-item>
+        </ion-list>
+
+
+        <!-- buttons -->
+        <ion-tab-bar>
+            <ion-tab-button
+            (touchend)="removeNote();$event.preventDefault(); $event.stopPropagation();"
+            (touchstart)="$event.preventDefault(); $event.stopPropagation();"
+            >
+                <ion-icon name="trash" color="danger"></ion-icon>
+                <ion-label color="danger">Usuń</ion-label>
+            </ion-tab-button>
+            
+            <ion-tab-button
+            (touchend)="edit();$event.preventDefault(); $event.stopPropagation();"
+            (touchstart)="$event.preventDefault(); $event.stopPropagation();"
+            >
+                <ion-icon name="brush" color="secondary"></ion-icon>
+                <ion-label color="secondary">Edytuj</ion-label>
+            </ion-tab-button>
+
+            <ion-tab-button
+            (touchend)="important();$event.preventDefault(); $event.stopPropagation();"
+            (touchstart)="$event.preventDefault(); $event.stopPropagation();"
+            >
+                <ion-icon name="information-circle" color="warning"></ion-icon>
+                <ion-label color="warning">Ważne</ion-label>
+            </ion-tab-button>
+
+        </ion-tab-bar>
+
+        <div class="date">
+          <ion-text color="secondary">Utworzono: </ion-text>
+          <ion-text color="light">{{note.created | date}}</ion-text>
+        </div>
+
+        <div class="date" *ngIf="note.modified">
+          <ion-text color="secondary">Zmieniono: </ion-text>
+          <ion-text color="light">{{note.created | date}}</ion-text>
+        </div>
+
+      </div>
+
+  </ion-accordion>
+</ion-accordion-group>

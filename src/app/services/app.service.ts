@@ -57,6 +57,7 @@ export class AppService {
     if (user) {
       console.log(`user ${user.nickname} logged, redirect to tasks board`)
       this.router.navigateByUrl('/tasks', { replaceUrl: true })
+      // this.router.navigateByUrl('/notes', { replaceUrl: true })
     } else { 
       console.log(`no user logged, redirect to users page`)
       this.router.navigateByUrl('/users', { replaceUrl: true })

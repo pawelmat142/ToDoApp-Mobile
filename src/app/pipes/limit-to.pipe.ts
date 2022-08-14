@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { NgModule, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'limitTo'
@@ -15,3 +15,9 @@ export class LimitToPipe implements PipeTransform {
   }
 
 }
+
+@NgModule({
+  declarations: [LimitToPipe],
+  exports: [LimitToPipe]
+})
+export class LimitToPipeModule {}

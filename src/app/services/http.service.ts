@@ -4,7 +4,7 @@ import { Observable,  } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { RegisterForm } from '../models/registerForm';
 import { User } from '../models/user';
-import { Task } from '../models/task';
+import { Task } from '../tasks/task-model';
 
 
 @Injectable({

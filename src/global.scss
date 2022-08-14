@@ -27,7 +27,7 @@
 
 
 * {
-    letter-spacing: .15em;
+    letter-spacing: .12em;
     line-height: 1.5;
 }
 
@@ -41,8 +41,8 @@
 
         ion-title {
             font-size: 26px;
-            padding-top: .7em;
-            padding-bottom: .7em;
+            padding-top: .5em;
+            padding-bottom: .5em;
         }
     }
 }
@@ -54,6 +54,7 @@ ion-content {
     --background: 70px url(assets/bg-pattern.svg),#2b2f33 fixed 70px;
     --padding-start: .5em;
     --padding-end: .5em;
+    --padding-bottom: 100px;
 }
 
 
@@ -69,37 +70,33 @@ ion-item {
     }
 }
 
+.filter {
+    --backgroung: transparent;
+    background: transparent;
+    margin-bottom: -10px;
+    box-shadow: 0;
+    --box-shadow: 0;
+}
+
 
 // TILES
-.tile-container {
+
+
+.user-tile {
     width: 100%;
-    margin-top: .7em;
-    border-radius: 0.4em;
+    margin-top: .8em;
+    height: 65px;
+    padding: 0 1.4em;
+    transition: .05s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background: var(--color-bg-main);
-    box-shadow: var(--color-bg-main) 1.95px 1.95px 2.6px;
-    
-    &.reorder-selected {
-        transition: .15s ease-in-out;
-        // background: var(--color-bg-pink-trans);
-    }
-
-    &.user {
-        background: var(--color-bg-main);
-        padding: 0;
-        margin-top: .8em;
-        height: 65px;
-        padding: 0 1.4em;
-        transition: .05s ease-in-out;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        
-        span {
-            font-size: 25px;
-            color: var(--ion-color-light);
-            letter-spacing: .1em;
-        }
-
+    border-radius: 0.4em;
+    span {
+        font-size: 25px;
+        color: var(--ion-color-light);
+        letter-spacing: .1em;
     }
 }
 
@@ -196,5 +193,23 @@ form {
     }
 }
 
+// TOAST
+.toast-wrapper {
+    --background: var(--ion-color-light);
+}
 
+.my-toast {
+    --background: var(--ion-color-light);
+    --color: var(--ion-color-dark);
+    color: var(--ion-color-dark);
+    text-align: center;
+    text-transform: uppercase;
+    // font-size: .8em;
+}
 
+ion-fab {
+    transition: .15s ease-in-out;
+    &.reorder {
+        transform: translateY(100px);
+    }
+}

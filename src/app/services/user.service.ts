@@ -67,6 +67,7 @@ export class UserService {
       message: 'Nieznany bład!'
     }
     await this.setUserData(null)
+    console.log(this.id)
     this.router.navigateByUrl('/users', { replaceUrl: true })
     return result
   }

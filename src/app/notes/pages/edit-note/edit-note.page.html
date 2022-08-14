@@ -1,0 +1,65 @@
+<ion-header class="header-pink">
+  <ion-toolbar>
+    <ion-title color="light">Edycja notatki</ion-title>
+    <ion-buttons slot="secondary" color="light">
+      <ion-back-button defaultHref="/notes" size="large" color="light"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form 
+    [formGroup]="editForm" 
+    (ngSubmit)="onSubmit()" 
+    (keyup.escape)="editForm.reset()"
+    (focusout)="onFocusout()"
+  >
+
+  <!-- CONTENT/NAME -->
+  <ion-item lines="none">
+    
+    <ion-label position="floating" color="secondary">Tytuł</ion-label>
+    <ion-input formControlName="title" type="text" color="light"></ion-input>
+
+    <ion-buttons slot="end" *ngIf="f.title.value">
+      <ion-icon 
+        name="close-circle-outline" 
+        size="large"
+        [color]="f.title.invalid && f.name.touched?'danger':'secondary'"
+        (click)="f.title.setValue('')"
+      ></ion-icon>
+    </ion-buttons>
+    
+  </ion-item>
+
+  <ng-container *ngFor="let paragraph of paragraphs; let i = index">
+    <ion-item lines="none" class="item-input">
+        
+      <ion-label position="floating" color="secondary" *ngIf="paragraphs.length===1">Treść</ion-label>
+      <ion-label position="floating" color="secondary" *ngIf="paragraphs.length!==1">Akapit {{i+1}}</ion-label>
+      <ion-textarea type="text" required color="light" #paragraphInputRef formControlName={{paragraph}} auto-grow></ion-textarea>
+      
+      <ion-buttons slot="end">
+        <ion-icon 
+        name="close-circle-outline" 
+        size="large"
+        [color]="this.f[paragraph]?.invalid && this.f[paragraph].touched?'danger':'secondary'"
+        (click)="$event.preventDefault();removeParagraph(paragraph)"
+        ></ion-icon>
+      </ion-buttons>
+    
+   </ion-item>
+  
+    <ng-container *ngIf="this.f[paragraph]?.touched && this.f[paragraph].errors">
+      <ion-note *ngIf="this.f[paragraph].errors.required" slot="error" color="danger">Uzupełnij lub usuń pole!</ion-note>
+    </ng-container>
+  </ng-container>
+
+
+  <ion-button class="ion-margin-top" type="button" expand="block" size="large" [disabled]="editForm?.invalid" color="secondary" (click)="onSubmit()">Gotowe</ion-button>
+  
+  <ion-button class="ion-margin-top" type="submit" expand="block" color="tertiary" (click)="addParagraph()">Dodaj akapit</ion-button>
+  
+  
+  </form>
+</ion-content>

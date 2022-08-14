@@ -11,8 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Drivers } from '@ionic/storage';
 import * as Cordovasqlitedriver from 'localforage-cordovasqlitedriver';
-import { DeadlinePipe } from './pipes/deadline.pipe';
-
+import { LimitToPipeModule } from './pipes/limit-to.pipe';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +20,7 @@ import { DeadlinePipe } from './pipes/deadline.pipe';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    LimitToPipeModule,
     IonicStorageModule.forRoot({
       name: 'users',
       driverOrder: [Cordovasqlitedriver._driver, Drivers.IndexedDB, Drivers.LocalStorage]
@@ -29,4 +29,6 @@ import { DeadlinePipe } from './pipes/deadline.pipe';
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
+
+

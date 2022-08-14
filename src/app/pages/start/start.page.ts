@@ -11,5 +11,4 @@ export class StartPage implements OnInit {
 
   ngOnInit() {
   }
-
 }

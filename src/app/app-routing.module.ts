@@ -5,10 +5,6 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./pages/start/start.module').then( m => m.StartPageModule)
-    // loadChildren: () => import('./pages/users-page/users.module').then( m => m.UsersPageModule)
-    // loadChildren: () => import('./pages/login-page/login-page.module').then( m => m.LoginPagePageModule)
-    // loadChildren: () => import('./pages/register-page/register-page.module').then( m => m.RegisterPagePageModule)
-    // loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
     path: 'start',
@@ -20,27 +16,27 @@ const routes: Routes = [
   },
   {
     path: 'tasks',
-    loadChildren: () => import('./pages/tasks-board/tasks-board.module').then( m => m.TasksBoardPageModule)
+    loadChildren: () => import('./tasks/pages/tasks-board/tasks-board.module').then( m => m.TasksBoardPageModule)
   },
   {
     path: 'notes',
-    loadChildren: () => import('./pages/notes-board/notes-board.module').then( m => m.NotesBoardPageModule)
-  },
-  {
-    path: 'register',
-    loadChildren: () => import('./pages/register-page/register-page.module').then( m => m.RegisterPagePageModule)
+    loadChildren: () => import('./notes/pages/notes-board/notes-board.module').then( m => m.NotesBoardPageModule)
   },
   {
     path: 'login',
     loadChildren: () => import('./pages/login-page/login-page.module').then( m => m.LoginPagePageModule)
   },
   {
+    path: 'register',
+    loadChildren: () => import('./pages/register-page/register-page.module').then( m => m.RegisterPagePageModule)
+  },
+  {
     path: 'add-task',
-    loadChildren: () => import('./pages/adding-form/adding-form.module').then( m => m.AddingFormPageModule)
+    loadChildren: () => import('./tasks/pages/adding-form/adding-form.module').then( m => m.AddingFormPageModule)
   },
   {
     path: 'edit-task',
-    loadChildren: () => import('./pages/editing-form/editing-form.module').then( m => m.EditingFormPageModule)
+    loadChildren: () => import('./tasks/pages/editing-form/editing-form.module').then( m => m.EditingFormPageModule)
   },
   {
     path: 'manual',
@@ -49,6 +45,14 @@ const routes: Routes = [
   {
     path: 'menu',
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
+  },
+  {
+    path: 'add-note',
+    loadChildren: () => import('./notes/pages/add-note/add-note.module').then( m => m.AddNotePageModule)
+  },
+  {
+    path: 'edit-note',
+    loadChildren: () => import('./notes/pages/edit-note/edit-note.module').then( m => m.EditNotePageModule)
   },
 
 

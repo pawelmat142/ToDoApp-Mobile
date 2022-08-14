@@ -1,0 +1,87 @@
+<ion-header class="header-pink">
+  <ion-toolbar>
+    <ion-title color="light">Dodaj notatke</ion-title>
+    <ion-buttons slot="end" color="light">
+      <ion-back-button defaultHref="/notes" size="large" color="light"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form 
+    [formGroup]="addingForm" 
+    (ngSubmit)="onSubmit()" 
+    (keyup.escape)="addingForm.reset()"
+    (focusout)="onFocusout()"
+  >
+
+    <!-- TITLE -->
+    <ion-item lines="none">
+    
+      <ion-label position="floating" color="secondary">Tytuł notatki (opcjonalnie)</ion-label>
+      <ion-input formControlName="title" type="text" color="light"></ion-input>
+
+      <ion-buttons slot="end" *ngIf="f.title.value">
+        <ion-icon 
+          name="close-circle-outline" 
+          size="large" 
+          [color]="f.title.invalid && f.title.touched?'danger':'secondary'"
+          (click)="f.title.setValue('')"
+        ></ion-icon>
+      </ion-buttons>
+      
+    </ion-item>
+
+    <!-- CONTENT -->
+    <ion-item lines="none">
+    
+      <ion-label position="floating" color="secondary">{{this.paragraphs.length?'Akapit 1':'Treść'}}</ion-label>
+      <ion-textarea formControlName="content" type="text" color="light" auto-grow #contentRef></ion-textarea>
+
+      <ion-buttons slot="end" *ngIf="f.content.value">
+        <ion-icon 
+          name="close-circle-outline" 
+          size="large" 
+          [color]="f.content.invalid && f.content.touched?'danger':'secondary'"
+          (click)="f.content.setValue('')"
+        ></ion-icon>
+      </ion-buttons>
+      
+    </ion-item>
+
+    <ng-container *ngIf="f.content.touched && f.content.errors">
+      <ion-note *ngIf="f.content.errors.required" slot="error" color="danger">Treść notatki jest wymagana!</ion-note>
+    </ng-container>
+
+
+    <!-- PARAGRAPHS -->
+    <ng-container *ngFor="let paragraph of paragraphs; let i = index">
+     <ion-item lines="none" class="item-input">
+      
+        <ion-label position="floating" color="secondary">Akapit {{i+2}}</ion-label>
+        <ion-textarea type="text" required color="light" #paragraphInputRef formControlName={{paragraph?paragraph:null}} auto-grow></ion-textarea>
+        
+        <ion-buttons slot="end">
+          <ion-icon 
+          name="close-circle-outline" 
+          size="large"
+          [color]="this.f[paragraph]?.invalid && this.f[paragraph].touched?'danger':'secondary'"
+          (click)="$event.preventDefault();removeParagraph(paragraph)"
+          ></ion-icon>
+        </ion-buttons>
+      
+     </ion-item>
+
+      <ng-container *ngIf="this.f[paragraph]?.touched && this.f[paragraph].errors">
+        <ion-note *ngIf="this.f[paragraph].errors.required" slot="error" color="danger">Uzupełnij lub usuń pole!</ion-note>
+      </ng-container>
+
+    </ng-container>
+
+        
+    <ion-button class="ion-margin-top" type="button" expand="block" size="large" [disabled]="addingForm.invalid" color="secondary" (click)="onSubmit()">Dodaj Notatke</ion-button>
+    
+    <ion-button class="ion-margin-top" type="submit" expand="block" color="tertiary" (click)="addParagraph()">Dodaj akapit</ion-button>
+
+  </form>
+</ion-content>

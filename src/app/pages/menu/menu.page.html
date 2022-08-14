@@ -20,6 +20,11 @@
       <ion-icon name="apps" slot="start" size="large" color="secondary"></ion-icon>
       <ion-title color="light">Instrukcja</ion-title>
     </ion-item>
+    
+    <ion-item button class="tile" lines="none" routerLink="/start">
+      <ion-icon name="home" slot="start" size="large" color="primary"></ion-icon>
+      <ion-title color="light">Home</ion-title>
+    </ion-item>
 
     <ion-item button class="tile" lines="none" (click)="logout()">
       <ion-icon name="log-out" slot="start" size="large" color="warning"></ion-icon>
@@ -39,7 +44,7 @@
     </ion-list-header>
     
     <ion-item button class="tile" lines="none" (click)="setTasksFilter('all')">
-      <ion-icon name="checkmark-done-circle" slot="start" size="large" color="secondary"></ion-icon>
+      <ion-icon name="checkmark-done-circle" slot="start" size="large" color="tertiary"></ion-icon>
       <ion-title color="light">Wszystkie</ion-title>
     </ion-item>
     

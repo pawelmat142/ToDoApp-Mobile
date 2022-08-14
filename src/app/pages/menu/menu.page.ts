@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { taskFilter, TasksService } from 'src/app/services/tasks.service';
+import { taskFilter, TasksService } from 'src/app/tasks/tasks.service';
 import { UserService } from 'src/app/services/user.service';
 
 

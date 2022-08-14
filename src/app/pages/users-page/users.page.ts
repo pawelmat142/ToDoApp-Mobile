@@ -45,6 +45,7 @@ export class UsersPage implements OnInit, OnDestroy {
       this.messageErr = true
       this.message = ''
     } else {
+      console.log(user.id)
       this.userService.login(user.id)
     }
   }

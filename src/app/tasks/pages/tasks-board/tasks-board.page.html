@@ -1,0 +1,61 @@
+<ion-header class="header-pink">
+  <ion-toolbar>
+    <ion-title color="light">Lista Zadań</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/menu" color="light">
+        <ion-icon slot="icon-only" name="list"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content appHideScrollButton scrollEvents="true" appSwipePage>
+<!-- <ion-content> -->
+
+  <ion-item (click)="changeFilter()" class="filter" button lines="none">
+    <ion-label color="secondary" *ngIf="filter==='all'">Wszystkie</ion-label>
+    <ion-label color="secondary" *ngIf="filter==='todo'">Do zrobienia</ion-label>
+    <ion-label color="secondary" *ngIf="filter==='done'">Skończone</ion-label>
+  </ion-item>
+
+  <ion-reorder-group *ngIf="tasks && tasks.length" #reorderRef disabled="true" (ionItemReorder)="doReorder($event)">
+    <ion-reorder *ngFor="let task of tasks; index as index" class="tile-container">
+      <app-task 
+        (appReorderToggle)="reorderOn()"
+        [task]="task" 
+        [index]="index" 
+        class="tile"
+      ></app-task>
+    </ion-reorder>
+  </ion-reorder-group>
+
+  <!-- when no tasks -->
+  <ng-container *ngIf="!tasks?.length">
+    <ion-item class="tile-container" button *ngIf="filter === 'todo'" (click)="filter='done'" class="msg">
+      <ion-text color="light">Nie masz zadań do zrobienia.<br> Przejdź do skończonych</ion-text>
+      <ion-button slot="end" fill="clear">
+        <ion-icon name="checkmark-circle" color="success" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-item class="tile-container" button *ngIf="filter === 'done'" (click)="filter='todo'" class="msg">
+      <ion-text color="light">Nie masz skończonych zadań.<br> Przejdź do zadań do zrobienia.</ion-text>
+      <ion-button slot="end" fill="clear">
+        <ion-icon name="close-circle" color="primary" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ng-container>
+
+  <!-- buttons -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="hide-scroll-button">
+    <ion-fab-button color="secondary" routerLink="/add-task">
+      <ion-icon name="duplicate" size="large"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed" [ngClass]="{reorder: !reorder}">
+    <ion-fab-button color="success" (click)="reorderOff()">
+      <ion-icon name="repeat-sharp" size="large"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  
+</ion-content>

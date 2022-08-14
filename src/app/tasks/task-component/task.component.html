@@ -1,0 +1,82 @@
+<ion-accordion-group #accordionRef class="tile" [ngClass]="{important: taskImportant}" (ionChange)="accordion()">
+    <ion-accordion value="{{index}}">
+
+        <!-- HEADER -->
+        <header slot="header" class="ion-activatable ripple-parent" color="secondary" [ngClass]="{expanded: task.open}"
+        >
+            <ion-text class="name" color="light">{{task.name | limitTo : taskNameLimit}}</ion-text>
+
+            <ng-container *ngIf="!task.open">
+                <ion-text *ngIf="task.deadline" class="deadline" color="light">{{task.deadline | deadline:'date'}}</ion-text>
+                <ion-text *ngIf="!task.deadline" class="deadline" color="light">---</ion-text>
+    
+                <ion-button fill="clear" [color]="task.done?'success':'primary'" appMarkDone [taskId]="task.id">
+                    <ion-icon [name]="task.done?'checkmark-circle':'close-circle'" slot="icon-only"></ion-icon>
+                </ion-button>
+            </ng-container>
+
+            <ion-ripple-effect></ion-ripple-effect>
+        </header>
+        
+        <div class="ion-padding" slot="content" class="accordion">
+
+            <!-- SUBTASKS -->
+            <ion-list>
+                <ion-list-header lines="none">
+                  <ion-label color="secondary">{{subtasks?.length?'Etapy:' :'Brak etapów'}}</ion-label>
+                </ion-list-header>
+
+                <ion-button fill="clear" lines="none" *ngFor="let subtask of subtasks; index as index" class="subtask"
+                    [color]="subtask.done?'success':'primary'"
+                    (touchend)="markSubtaskAsDone(index); $event.preventDefault(); $event.stopPropagation();"
+                    (touchstart)="$event.preventDefault(); $event.stopPropagation();"
+                >
+                    <div>
+                        <ion-icon [name]="subtask.done?'checkmark-circle':'close-circle'" size="small"></ion-icon>
+                        <span>{{subtask.name}}</span>
+                    </div>
+                </ion-button>
+
+            </ion-list>
+
+            <div class="deadline"><ion-text color="secondary">Termin: </ion-text>{{task.deadline? (task.deadline | deadline: 'full'):'brak'}}</div>
+
+            <!-- BUTTONS -->
+            <ion-tab-bar>
+                <ion-tab-button
+                (touchend)="removeTask();$event.preventDefault(); $event.stopPropagation();"
+                (touchstart)="$event.preventDefault(); $event.stopPropagation();"
+                >
+                    <ion-icon name="trash" color="danger"></ion-icon>
+                    <ion-label color="danger">Usuń</ion-label>
+                </ion-tab-button>
+                
+                <ion-tab-button
+                (touchend)="edit();$event.preventDefault(); $event.stopPropagation();"
+                (touchstart)="$event.preventDefault(); $event.stopPropagation();"
+                >
+                    <ion-icon name="brush" color="secondary"></ion-icon>
+                    <ion-label color="secondary">Edytuj</ion-label>
+                </ion-tab-button>
+
+                <ion-tab-button
+                (touchend)="important();$event.preventDefault(); $event.stopPropagation();"
+                (touchstart)="$event.preventDefault(); $event.stopPropagation();"
+                >
+                    <ion-icon name="information-circle" color="warning"></ion-icon>
+                    <ion-label color="warning">Ważne</ion-label>
+                </ion-tab-button>
+
+                <ion-tab-button
+                (touchend)="markAsDone(); $event.preventDefault(); $event.stopPropagation();"
+                (touchstart)="$event.preventDefault(); $event.stopPropagation();"
+                >
+                    <ion-icon [name]="task.done?'checkmark-circle':'close-circle'" [color]="task.done?'success':'primary'"></ion-icon>
+                    <ion-label [color]="task.done?'success':'primary'">{{task.done?'Skończone':'Skończ'}}</ion-label>
+                </ion-tab-button>
+            </ion-tab-bar>
+
+        </div>
+
+    </ion-accordion>
+</ion-accordion-group>

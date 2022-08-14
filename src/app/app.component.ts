@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, OnChanges, SimpleChanges } from '@angular/core';
 import { UserService } from './services/user.service';
 import * as Cordovasqlitedriver from 'localforage-cordovasqlitedriver';
 import { Storage } from '@ionic/storage-angular';
@@ -12,9 +12,9 @@ import { AppService } from './services/app.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  
+
   constructor(
     private appService: AppService
-  ){}
-
+  ) {}
+  
 }
