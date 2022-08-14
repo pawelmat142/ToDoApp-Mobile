@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { taskFilter, TasksService } from 'src/app/tasks/tasks.service';
 import { UserService } from 'src/app/services/user.service';
+import { UsersService } from 'src/app/services/users.service';
 
 
 @Component({
@@ -14,7 +15,8 @@ export class MenuPage implements OnInit {
   constructor(
     private userService: UserService,
     private tasksService: TasksService,
-    private router: Router,
+    public router: Router,
+    private usersService: UsersService
   ) { }
 
   ngOnInit() {
@@ -26,8 +28,26 @@ export class MenuPage implements OnInit {
     this.userService.logout()
   }
 
-  deleteAccount() { 
-    console.log('delete')
+  async deleteAccount() {
+    const alert = document.createElement('ion-alert');
+    alert.header = 'Uwaga!';
+    alert.subHeader = this.userService.user.nickname;
+    alert.message = 'Czy na pewno chcesz usunąć konto?';
+    alert.cssClass = 'my-alert-wrapper';
+    alert.buttons = [{
+        text: 'Nie',
+        role: 'cancel',
+      },
+    {
+      text: 'Tak',
+      role: 'confirm',
+      handler: () => {
+        this.router.navigateByUrl('/users', { replaceUrl: true })
+        this.usersService.deleteUser(this.userService.id)
+      }
+    }];
+    document.body.appendChild(alert);
+    await alert.present();
   }
 
 

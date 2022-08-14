@@ -40,28 +40,25 @@ export class RegisterPagePage {
 
   async onSubmit(): Promise<void> {
     if (this.registerForm.invalid) return
-    if (!this.f.online.value) {
-      const newUser: nUser = {
-        id: this.f.nickname.value,
-        nickname: this.f.nickname.value,
-        password: this.f.password.value,
-        logged: false,
-        online: this.f.online.value,
-      }
-      const result: dataRespone = await this.usersService.addUser(newUser)
-      this.message = result.message
-      this.messageErr = !result.state
-      
-      if (result.state) {
-        this.submitRef.nativeElement.setAttribute('disabled', 'true')
-        setTimeout(() => this.router.navigateByUrl('/users', { replaceUrl: true }), 2000)
-      } else { 
-        setTimeout(() => this.message = '', 5000)
-      }
-    } else { 
-      this.message = 'online nieobslużone!!!'
-      this.messageErr = true
+    const newUser: nUser = {
+      id: this.f.online ? '' : this.f.nickname.value,
+      nickname: this.f.nickname.value,
+      password: this.f.password.value,
+      logged: false,
+      online: this.f.online.value,
     }
+
+    const result: dataRespone = await this.usersService.addUser(newUser)
+    this.message = result.message
+    this.messageErr = !result.state
+    
+    if (result.state) {
+      this.submitRef.nativeElement.setAttribute('disabled', 'true')
+      setTimeout(() => this.router.navigateByUrl('/users', { replaceUrl: true }), 2000)
+    } else { 
+      setTimeout(() => this.message = '', 5000)
+    }
+
 
     this.submitted = true
   }

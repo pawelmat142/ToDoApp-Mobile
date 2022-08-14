@@ -1,10 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { nUser, User } from 'src/app/models/user';
+import { dataRespone } from 'src/app/models/dataResponse';
+import { Credentials, nUser, User } from 'src/app/models/user';
 import { HttpService } from 'src/app/services/http.service';
 import { UserService } from 'src/app/services/user.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-login-page',
@@ -26,14 +28,14 @@ export class LoginPagePage {
   )
 
   constructor(
-    private http: HttpService,
     public router: Router,
+    private usersService: UsersService,
     private userService: UserService
   ) { 
-    // this.currentUser = userService.user
     console.log(this.currentUser)
   }
   
+  @ViewChild('submit', {read: ElementRef}) submitRef: ElementRef
 
   submitted = false;
 
@@ -47,35 +49,48 @@ export class LoginPagePage {
     console.log(event)
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     this.submitted = true
     if (this.loginForm.invalid) return
-    this.http.login(this.loginForm.value as Partial<User>)
-      .subscribe(
-        () => this.succes(),
-        error => this.failure(error)
-    )
+
+    const credentials: Credentials = {
+      nickname: this.loginForm.value.nickname,
+      password: this.loginForm.value.password
+    }
+
+    const user = this.usersService.users.find(u => u.nickname === credentials.nickname)
+
+    if (user && user.online === false) {
+      this.offlineCase(user, credentials)
+      return
+    } 
+
+    console.log('online case')
+
+    const result: dataRespone = await this.usersService.login(credentials)
+
+    this.message = result.message
+    this.messageErr = !result.state
+
+    if (result.state) {
+      this.submitRef.nativeElement.setAttribute('disabled', 'true')
+      setTimeout(() => this.router.navigateByUrl('/tasks', { replaceUrl: true }), 2000)
+    } else { 
+      setTimeout(() => this.message = '', 5000)
+    }
   }
 
-  private succes(): void {
-    console.log('succes')
-    this.submitted = false
-    this.loginForm.reset()
-    this.message = 'Zalogowano'
-    setTimeout(() => this.router.navigateByUrl('/tasks', { replaceUrl: true }), 1000)
-  }
-  
-  private failure(error: HttpErrorResponse): void {
-    console.log('fail')
-    this.message = error.error.message
-    // this.message = 'Błąd logowania!'
-    this.messageErr = true
-    this.loginForm.reset()
-    this.submitted = false
-    setTimeout(() => { 
-      this.message = ''
-      this.messageErr = false
-    }, 5000)
+  private async offlineCase(user: nUser, credentials: Credentials) {
+    if (credentials.password === user.password) {
+      const result = await this.userService.setUser(user.id)
+    } else {
+      this.message = 'Błędne hasło'
+      this.messageErr = true
+      setTimeout(() => {
+        this.message = ''
+        this.messageErr = false
+      },5000)
+    }
   }
 
 }

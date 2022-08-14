@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   dataUsersKey: 'pz1hLP@7uVO$C0yqK4A5ag%K',
-  loggedUsersKey: 'ed8C9zJJ'
+  loggedUsersKey: 'ed8C9zJJ',
+  loggedUsersToken: '0Lc75b!0NTwY'
 };
 
 /*

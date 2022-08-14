@@ -30,9 +30,11 @@ export class TasksService {
   }
 
   public async loadData() {
-    console.log(`load data TASKS, key: ${this.KEY}`)
-    const tasks = await this.storage.get(this.KEY) as Task[] || []
-    this.tasksObs.next(tasks)
+    if (this.KEY) {
+      console.log(`load data TASKS, key: ${this.KEY}`)
+      const tasks = await this.storage.get(this.KEY) as Task[] || []
+      this.tasksObs.next(tasks)
+    }
   }
 
   public killData = () => this.tasksObs.next([])
@@ -70,6 +72,7 @@ export class TasksService {
     }
     return result
   }
+
 
   public async editTask(newTask: Task): Promise<dataRespone> {
     let result: dataRespone = {

@@ -60,7 +60,8 @@ export class AppService {
       // this.router.navigateByUrl('/notes', { replaceUrl: true })
     } else { 
       console.log(`no user logged, redirect to users page`)
-      this.router.navigateByUrl('/users', { replaceUrl: true })
+      // this.router.navigateByUrl('/users', { replaceUrl: true })
+      this.router.navigateByUrl('/login', { replaceUrl: true })
     }
   }
 

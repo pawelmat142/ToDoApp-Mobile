@@ -24,6 +24,10 @@ export class HttpService {
   }
   
   
+  test(): Observable<never> {
+    return this.http.get<never>(this.url + '/test')
+  }
+  
   register(body: RegisterForm): Observable<never> {
     return this.http.post<never>(this.url + '/register', body)
   }

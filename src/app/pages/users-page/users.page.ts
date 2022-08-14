@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { nUser } from 'src/app/models/user';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import { environment } from '../../../environments/environment'
 import { UsersService } from 'src/app/services/users.service';
-
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-users',
@@ -19,7 +17,7 @@ export class UsersPage implements OnInit, OnDestroy {
   constructor(
     public router: Router,
     private usersService: UsersService,
-    private userService: UserService
+    private userService: UserService,
   ) {}
 
   message: string
@@ -39,15 +37,8 @@ export class UsersPage implements OnInit, OnDestroy {
   }
 
 
-  chooseUser(user: nUser): void {
-    if (user.online) {
-      this.message = 'online nieobslużone!'
-      this.messageErr = true
-      this.message = ''
-    } else {
-      console.log(user.id)
-      this.userService.login(user.id)
-    }
+  async chooseUser(user: nUser): Promise<void> {
+    this.userService.setUser(user.id)
   }
 
 }

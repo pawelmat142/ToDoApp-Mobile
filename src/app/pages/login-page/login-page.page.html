@@ -1,68 +1,71 @@
 <ion-header class="header-pink">
   <ion-toolbar>
     <ion-title>Zaloguj się</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-back-button defaultHref="/users" size="large"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keydown)="$event.key==='Enter'?onSubmit():null" class="background-pattern form-padding">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keydown)="$event.key==='Enter'?onSubmit():null">
 
     <!-- NAME -->
-      <ion-item lines="none">
-  
-        <ion-label position="floating" color="secondary">Imię/nick</ion-label>
-        <ion-input formControlName="nickname" type="text" required color="light"></ion-input>
-  
-        <ion-buttons slot="end" *ngIf="f.nickname.value">
-          <ion-icon 
-            name="close-circle-outline" 
-            size="large" 
-            [color]="f.nickname.invalid && f.nickname.touched?'danger':'secondary'"
-            (click)="f.nickname.setValue('')"
-          ></ion-icon>
-        </ion-buttons>
-        
-      </ion-item>
+    <ion-item lines="none">
 
-      <ng-container *ngIf="f.nickname.touched && f.nickname.errors">
-        <ion-note *ngIf="f.nickname.errors.required" slot="error" color="danger">Imię lub nick są wymagane!</ion-note>
-        <ion-note *ngIf="f.nickname.errors.minlength" slot="error" color="danger">Imię lub nick powinny mieć przynajmniej 3 znaki!</ion-note>
-      </ng-container>
-      
-      
-      <!-- PASSWORD -->
-        <ion-item lines="none">
-    
-          <ion-label position="floating" color="secondary">Hasło</ion-label>
-          <ion-input formControlName="password" type="password" required color="light"></ion-input>
-    
-          <ion-buttons slot="end" *ngIf="f.password.value">
-            <ion-icon 
-              name="close-circle-outline" 
-              size="large" 
-              [color]="f.password.invalid && f.password.touched?'danger':'secondary'"
-              (click)="f.password.setValue('')"
-            ></ion-icon>
-          </ion-buttons>
-    
-        </ion-item>
+      <ion-label position="floating" color="secondary">Imię/nick</ion-label>
+      <ion-input formControlName="nickname" type="text" required color="light"></ion-input>
 
-        <ng-container *ngIf="f.password.touched && f.password.errors">
-          <ion-note *ngIf="f.password.errors.required" slot="error" color="danger">Hasło jest wymagane!</ion-note>
-          <ion-note *ngIf="f.password.errors.minlength" slot="error" color="danger">Hasło powinno zawierać przynajmniej 4 znaki!</ion-note>
-        </ng-container>
+      <ion-buttons slot="end" *ngIf="f.nickname.value">
+        <ion-icon 
+          name="close-circle-outline" 
+          size="large" 
+          [color]="f.nickname.invalid && f.nickname.touched?'danger':'secondary'"
+          (click)="f.nickname.setValue('')"
+        ></ion-icon>
+      </ion-buttons>
+      
+    </ion-item>
+
+    <ng-container *ngIf="f.nickname.touched && f.nickname.errors">
+      <ion-note *ngIf="f.nickname.errors.required" slot="error" color="danger">Imię lub nick są wymagane!</ion-note>
+      <ion-note *ngIf="f.nickname.errors.minlength" slot="error" color="danger">Imię lub nick powinny mieć przynajmniej 3 znaki!</ion-note>
+    </ng-container>
+      
+    
+    <!-- PASSWORD -->
+    <ion-item lines="none">
+
+      <ion-label position="floating" color="secondary">Hasło</ion-label>
+      <ion-input formControlName="password" type="password" required color="light"></ion-input>
+
+      <ion-buttons slot="end" *ngIf="f.password.value">
+        <ion-icon 
+          name="close-circle-outline" 
+          size="large" 
+          [color]="f.password.invalid && f.password.touched?'danger':'secondary'"
+          (click)="f.password.setValue('')"
+        ></ion-icon>
+      </ion-buttons>
+
+    </ion-item>
+
+    <ng-container *ngIf="f.password.touched && f.password.errors">
+      <ion-note *ngIf="f.password.errors.required" slot="error" color="danger">Hasło jest wymagane!</ion-note>
+      <ion-note *ngIf="f.password.errors.minlength" slot="error" color="danger">Hasło powinno zawierać przynajmniej 4 znaki!</ion-note>
+    </ng-container>
         
     <!-- SUBMIT -->
-      <ion-button class="ion-margin-top" type="submit" expand="block" size="large" color="secondary">Zaloguj</ion-button>
+    <ion-button class="ion-margin-top" type="submit" #submit expand="block" size="large" color="secondary">Zaloguj</ion-button>
 
-      <ion-button class="ion-margin-top" type="button" expand="block" color="tertiary" routerLink="/register">Rejestracja</ion-button>
-      
+    <ion-button class="ion-margin-top" type="button" expand="block" color="tertiary" routerLink="/register">Rejestracja</ion-button>
+
     <!-- ERRORS -->
-      <ion-text *ngIf="message" class="form-message" [color]="messageErr?'danger':'success'">
-        <p>{{message}}</p>
-      </ion-text>
+    <ion-text *ngIf="message" class="form-message" [color]="messageErr?'danger':'success'">
+      <p>{{message}}</p>
+    </ion-text>
   
-    </form>
+  </form>
 
 </ion-content>
