@@ -18,13 +18,12 @@ export class MenuPage implements OnInit {
     private tasksService: TasksService,
     public router: Router,
     private usersService: UsersService,
-    private app: AppService
   ) { }
 
   ngOnInit() {
   }
 
-  
+
   // account
 
   async closeUser() {
