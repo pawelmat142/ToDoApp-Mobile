@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { nUser } from '../models/user';
+import { Credentials, nUser } from '../models/user';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { environment } from '../../environments/environment'
 import { UsersService } from './users.service';
 import { dataRespone } from '../models/dataResponse';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+
 import { isDevMode } from '@angular/core'
 const dev = isDevMode() ? true : false
 
@@ -15,42 +17,34 @@ const dev = isDevMode() ? true : false
 })
 export class UserService {
 
+  // stores current logged user
   private userObs = new BehaviorSubject<nUser>(null)
   private userSnapshot: nUser = null
 
   constructor(
-    public storage: Storage,
-    public router: Router,
     private usersService: UsersService,
+    public storage: Storage,
+    private http: HttpClient,
   ) {
+    if (dev) console.log('userService constructor')
 
     this.userObs.subscribe(u => {
       this.userSnapshot = u
-      if (dev) console.log('user subscribe')
+      if (dev) console.log('user subscribing: ' + this.userSnapshot)
     })
 
-    this.loggedObs.subscribe(l => {
-      this.loggedSnapshot = l
-    })
+  }
+
+  // INIT TRIGGERED BY APP SERVICE
+  public async initUser(): Promise<boolean> {
+    if (dev) console.log('init USER')
+    const success = await this.loadCurrentUser()
+    if (!success) return false
+    return true
   }
 
 
-  getUserObs(): Observable<nUser> {
-    return this.userObs.asObservable()
-  }
-
-
-  // triggered by app service
-  public async initUser(user: nUser): Promise<void> {
-    if (user?.online) {
-      const token = await this.storage.get(environment.loggedUsersToken) as string || ''
-      if (!token) console.log('TODO: user sie inicjalizuje ale nie ma tokena!')
-      user.token = token
-    }
-    this.userObs.next(user)
-    this.login()
-  }
-
+  // STORAGE STAFF
 
   public get user(): nUser {
     return this.userSnapshot
@@ -60,6 +54,67 @@ export class UserService {
     return this.userSnapshot ? this.userSnapshot.id : ''
   }
 
+  public getUserObs(): Observable<nUser> {
+    return this.userObs.asObservable()
+  }
+
+  private async loadCurrentUser(): Promise<boolean> {
+    let result = true
+    const currentUserId = await this.storage.get(environment.currentUserKey) as string || null
+    if (currentUserId) {
+      this.userObs.next(this.usersService.getUserById(currentUserId))
+    } else result = false
+
+    const loginResult = await this.loginIfUserIsOnline()
+    if (!loginResult) result = false
+
+    if (!result) await this.resetCurrentUser()
+    return result
+  }
+
+
+  public async chooseUser(userId: string): Promise<dataRespone> {
+    let result = {state: true, message: 'Zalogowano!'}
+
+    try {
+      let user = this.usersService.getUserById(userId)
+      if (user) {
+        await this.storage.set(environment.currentUserKey, user.id)
+        this.userObs.next(user)
+      } else throw new Error('Problem z pamięcią')
+
+      const loginResult = await this.loginIfUserIsOnline()
+      if (!loginResult) throw new Error('Problem z logowaniem!')
+    } 
+    catch (error) {
+      result = { state: false, message: error.message}
+      await this.resetCurrentUser()
+    }
+    return result
+  }
+
+
+  public async resetCurrentUser(): Promise<void> {
+    if (dev) console.log('resetCurrentUser')
+    if (this.userSnapshot?.online) {
+      await this.usersService.removeUserToken(this.userSnapshot.id)
+    }
+    await this.storage.set(environment.currentUserKey, '')
+    await this.resetToken()
+    this.userObs.next(null)
+  }
+
+
+
+
+  // ONLINE USER STAFF
+
+  public offlineMode: boolean = false
+
+  private url = environment.apiUrl
+
+  private headers = new HttpHeaders({ 'Authorization': '' })
+
   public get token(): string {
     return this.userSnapshot ? this.userSnapshot.token : ''
   }
@@ -68,88 +123,73 @@ export class UserService {
     return this.userSnapshot ? this.userSnapshot.online : false
   }
 
-
-  // LOGIN / LOGOUT
-
-  private loggedObs = new BehaviorSubject<boolean>(false)
-  private loggedSnapshot: boolean = false
-
-  get logged(): boolean { return this.loggedSnapshot}
-
-  public getLoggedObs(): Observable<boolean> {
-    return this.loggedObs.asObservable()
+  private async loginIfUserIsOnline(): Promise<boolean> {
+    if (this.userSnapshot?.online) {
+      try {
+        await this.loginCurrentUserOrSetOfflineMode()
+        if (dev && this.offlineMode) console.log('USER OFFLINE MODE')
+        return true
+      } catch (error) { return false }
+    } else return true
   }
 
-
-  public async setUser(userId: string): Promise<dataRespone> {
-    const user = this.usersService.getUserById(userId)
-    let result: dataRespone = {
-      state: false,
-      message: 'Nieznany bład!'
-    }
-    if (!user) {
-      result.message = 'Nie ma takiego użytkownika'
-      return result
-    }
-
-    await this.setUserData(user)
-    this.login()
-    return result
-  }
-
-  
-  public async logout(): Promise<dataRespone> {
-    this.usersService.resetToken()
-    this.loggedObs.next(false)
-    let result: dataRespone = {
-      state: false,
-      message: 'Nieznany bład!'
-    }
-    await this.setUserData(null)
-    this.router.navigateByUrl('/users', { replaceUrl: true })
-    return result
-  }
-
-
-  
-  // STORAGE
-
-  private get idKey(): string {
-    return environment.loggedUsersKey
-  }
-
-  private async setUserData(user: nUser): Promise<void> {
-    this.router.navigateByUrl('/tasks', { replaceUrl: true })
-    this.userObs.next(user)
-    await this.storage.set(this.idKey, user? user.id : '')
-  }
-
-  private async login () {
-    if (this.user?.online) {
-      if (!this.loggedSnapshot) {
-        let result = await this.usersService.login({nickname: this.userSnapshot.nickname, password: this.userSnapshot.password})
-        if (result.state) {
-          this.loggedObs.next(true)
-          if (dev) console.log(`LOGGED user: ${this.userSnapshot.nickname}`)
-        } else {
-          const alert = document.createElement('ion-alert');
-          alert.header = 'Uwaga!';
-          alert.subHeader = this.userSnapshot.nickname;
-          alert.message = 'Błąd logowania. Możesz przejść do trybu offline. Pamiętaj aby później zsynchronizować dane!';
-          alert.cssClass = 'my-alert-wrapper';
-          alert.buttons = [{
-              text: 'Tryb offline',
-              role: 'cancel',
-            },{
-              text: 'Ponów próbę',
-              role: 'confirm',
-              handler: () => this.login()
-            }];
-          document.body.appendChild(alert);
-          await alert.present();
-        }
-      }
+  private async loginCurrentUserOrSetOfflineMode(): Promise<void> {
+    if (dev) console.log('loginCurrentUserOrSetOfflineMode')
+    let success = await this.loginCurrentUser()
+    if (!success) {
+      this.offlineMode = await this.alertLoginFailScenario()
+      if (!this.offlineMode) await this.loginCurrentUserOrSetOfflineMode()
     }
   }
+
+  private loginCurrentUser = () => new Promise<boolean>((resolve) => {
+    this.http.post<any>(this.url + '/login', {
+      nickname: this.userSnapshot.nickname,
+      password: this.userSnapshot.password
+    }).subscribe(
+      (token) => {
+        this.setToken(token)
+        resolve(true)
+      },
+      (error) => resolve(false)
+    )
+  })
+
+
+  private alertLoginFailScenario = () => new Promise<boolean>(async (resolve, reject) => {
+    const alert = document.createElement('ion-alert');
+    alert.header = 'Uwaga!';
+    alert.subHeader = 'Użytkownik ' + this.userSnapshot.nickname;
+    alert.message = 'Błąd logowania. Możesz przejść do trybu offline. Pamiętaj aby później zsynchronizować dane!';
+    alert.cssClass = 'my-alert-wrapper';
+    alert.buttons = [{
+      text: 'Tryb offline',
+      handler: () => resolve(true)
+    },{
+      text: 'Ponów próbę',
+      handler: async () => resolve(false)
+    },{
+      text: 'Przejdź do listy użytkowników',
+      handler: async () => reject()
+    }];
+    document.body.appendChild(alert);
+    await alert.present();
+  })
+
+
+  // TOKEN
+
+  public async setToken(token: string) {
+    if (dev) console.log('setting token ' + token)
+    this.headers = this.headers.set('Authorization', token? `Bearer ${token}` : '')
+    await this.storage.set(environment.currentUserToken, token)
+  }
+
+  private async resetToken() {
+    this.headers = this.headers.set('Authorization', '')
+    await this.storage.set(environment.currentUserToken, '')
+  }
+
+  // OTHERS
 
 }

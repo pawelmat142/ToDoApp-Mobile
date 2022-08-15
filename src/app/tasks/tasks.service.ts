@@ -35,9 +35,6 @@ export class TasksService {
       if (dev) console.log('tasks service subscribe')
     })
 
-    this.userService.getLoggedObs().subscribe(logged => {
-      if (logged) this.loadOnlineData()
-    })
 
   }
 
@@ -82,12 +79,12 @@ export class TasksService {
       message: 'Nieznany bład!'
     }
 
-    if (this.userService.online && this.userService.logged) {
-      console.log('add task online')
-      result = await this.tasksOnline.addTask(task)
-      if (!result.state) return result
-      task.id = result.message
-    }
+    // if (this.userService.online && this.userService.logged) {
+    //   console.log('add task online')
+    //   result = await this.tasksOnline.addTask(task)
+    //   if (!result.state) return result
+    //   task.id = result.message
+    // }
 
     const success = await this.setTasks([...this.tasksSnapshot, task] as Task[])
     if (success) {
@@ -107,10 +104,10 @@ export class TasksService {
       message: 'Nieznany bład!'
     }
 
-    if (this.userService.online && this.userService.logged) {
-      result = await this.tasksOnline.editTask(newTask)
-      if (!result.state) return result
-    }
+    // if (this.userService.online && this.userService.logged) {
+    //   result = await this.tasksOnline.editTask(newTask)
+    //   if (!result.state) return result
+    // }
 
     const i = this.tasksSnapshot.findIndex(t => t.id === newTask.id)
     this.tasksSnapshot.splice(i, 1, newTask)

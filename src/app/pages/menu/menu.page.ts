@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { taskFilter, TasksService } from 'src/app/tasks/tasks.service';
 import { UserService } from 'src/app/services/user.service';
 import { UsersService } from 'src/app/services/users.service';
+import { AppService } from 'src/app/services/app.service';
 
 
 @Component({
@@ -16,7 +17,8 @@ export class MenuPage implements OnInit {
     private userService: UserService,
     private tasksService: TasksService,
     public router: Router,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private app: AppService
   ) { }
 
   ngOnInit() {
@@ -24,8 +26,8 @@ export class MenuPage implements OnInit {
 
   // account
 
-  logout() { 
-    this.userService.logout()
+  closeUser() { 
+    this.app.closeUser()
   }
 
   async deleteAccount() {
@@ -41,9 +43,12 @@ export class MenuPage implements OnInit {
     {
       text: 'Tak',
       role: 'confirm',
-      handler: () => {
-        this.router.navigateByUrl('/users', { replaceUrl: true })
-        this.usersService.deleteUser(this.userService.id)
+      handler: async () => {
+        this.userService.resetCurrentUser()
+        const success = await this.usersService.deleteUserInStorage(this.userService.id)
+        if (success) {
+          this.router.navigateByUrl('/users', { replaceUrl: true })
+        }
       }
     }];
     document.body.appendChild(alert);

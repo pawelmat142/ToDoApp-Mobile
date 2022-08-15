@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UsersService } from 'src/app/services/users.service';
 
+import { isDevMode } from '@angular/core'
+import { dataRespone } from 'src/app/models/dataResponse';
+const dev = isDevMode() ? true : false
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.page.html',
@@ -17,7 +21,12 @@ export class UsersPage implements OnInit, OnDestroy {
     public router: Router,
     private usersService: UsersService,
     private userService: UserService,
-  ) {}
+  ) {
+    if (dev) console.log('usersPage constructor')
+    this.usersSubscribtion = this.usersService.getUsersObs().subscribe((users: nUser[]) => {
+      this.users = users
+    })
+  }
 
   message: string
   messageErr: boolean = false
@@ -26,7 +35,7 @@ export class UsersPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userService
-    this.usersSubscribtion = this.usersService.get().subscribe((users: nUser[]) => {
+    this.usersSubscribtion = this.usersService.getUsersObs().subscribe((users: nUser[]) => {
       this.users = users
     })
   }
@@ -37,7 +46,21 @@ export class UsersPage implements OnInit, OnDestroy {
 
 
   async chooseUser(user: nUser): Promise<void> {
-    this.userService.setUser(user.id)
+    let result = await this.userService.chooseUser(user.id)
+    this.setMessage(result)
+    if (result.state) {
+      this.router.navigateByUrl('/tasks', { replaceUrl: true })
+    }
+  }
+
+
+  private setMessage(result: dataRespone): void {
+    this.message = result.message
+    this.messageErr = !result.state
+    setTimeout(() => {
+      this.message = ''
+      this.messageErr = false
+    }, 5000)
   }
 
 }

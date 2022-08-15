@@ -5,6 +5,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./pages/start/start.module').then( m => m.StartPageModule)
+    // loadChildren: () => import('./pages/users-page/users.module').then( m => m.UsersPageModule)
   },
   {
     path: 'start',

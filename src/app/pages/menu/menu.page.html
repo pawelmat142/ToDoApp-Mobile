@@ -15,7 +15,12 @@
     <ion-list-header lines="none">
       <ion-title color="secondary">Konto</ion-title>
     </ion-list-header>
-    
+
+    <ion-item button class="tile" lines="none" routerLink="/users">
+      <ion-icon name="apps" slot="start" size="large" color="secondary"></ion-icon>
+      <ion-title color="light">Konta</ion-title>
+    </ion-item>
+
     <ion-item button class="tile" lines="none" routerLink="/manual">
       <ion-icon name="apps" slot="start" size="large" color="secondary"></ion-icon>
       <ion-title color="light">Instrukcja</ion-title>
@@ -26,7 +31,7 @@
       <ion-title color="light">Home</ion-title>
     </ion-item>
 
-    <ion-item button class="tile" lines="none" (click)="logout()">
+    <ion-item button class="tile" lines="none" (click)="closeUser()">
       <ion-icon name="log-out" slot="start" size="large" color="warning"></ion-icon>
       <ion-title color="light">Wyloguj</ion-title>
     </ion-item>

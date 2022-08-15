@@ -6,10 +6,9 @@ export const environment = {
   production: false,
 
   // storage
-  dataUsersKey: 'pz1hLP@7uVO$C0yqK4A5ag%K',
-  loggedUsersKey: 'ed8C9zJJ',
-  loggedUsersToken: '0Lc75b!0NTwY',
-
+  dataUsersKey: 'dataUsersKey',
+  currentUserKey: 'currentUserKey',
+  currentUserToken: 'currentUserToken',
   
   // apiUrl: 'http://localhost:3333/api',
   apiUrl: 'https://todo.drawit.click/api',

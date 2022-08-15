@@ -39,13 +39,13 @@ export class UsersOnlineService {
     if (dev && token) console.log('setting token')
     this.tokenObs.next(token)
     this.headers = this.headers.set('Authorization', 'Bearer ' + token)
-    this.storage.set(environment.loggedUsersToken, token)
+    this.storage.set(environment.currentUserToken, token)
   }
 
   resetToken() {
     this.tokenObs.next('')
     this.headers = this.headers.set('Authorization', 'Bearer ' + '')
-    this.storage.set(environment.loggedUsersToken, '')
+    this.storage.set(environment.currentUserToken, '')
   }
 
 
