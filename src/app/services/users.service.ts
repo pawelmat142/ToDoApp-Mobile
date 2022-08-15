@@ -7,6 +7,10 @@ import { dataRespone } from '../models/dataResponse';
 import { Router } from '@angular/router';
 import { UsersOnlineService } from './users-online.service';
 import { IdService } from './id.service';
+import jwt_decode from 'jwt-decode';
+
+import { isDevMode } from '@angular/core'
+const dev = isDevMode() ? true : false
 
 
 @Injectable({
@@ -48,6 +52,8 @@ export class UsersService {
 
 
   public async addUser(user: nUser): Promise<dataRespone> {
+    console.log('add user')
+    console.log(user)
     let result: dataRespone = {
       state: false,
       message: 'Nieznany bład!'
@@ -59,10 +65,11 @@ export class UsersService {
     }
 
     if (user.online) {
-      const dataRespone = await this.usersOnline.addUser(user)
-      if (!dataRespone.state) {
-        return dataRespone
-      }
+      const result = await this.usersOnline.addUser(user)
+      if (!result.state) { return result }
+      user.id = result.message
+    } else {
+      user.id = this.id.generate()
     }
 
     const usersBefore = this.usersSnapshot
@@ -109,13 +116,17 @@ export class UsersService {
     if (!dataRespone.state) return dataRespone
 
     const token = dataRespone.message
-    this.usersOnline.setToken(token)
+    const userId = jwt_decode(token)['id']
+    dataRespone.message = 'Zalogowano!'
 
-    if (this.userExists(credentials.nickname)) {
+    const userExists = this.user(credentials.nickname)
+
+    if (userExists) {
+      dataRespone.message = userExists.id
       return dataRespone
-    } 
+    }
     else {
-      return await this.addExistUserToStorage(credentials, token)
+      return await this.addExistUserToStorage(credentials, token, userId)
     }
   }
 
@@ -133,20 +144,21 @@ export class UsersService {
       await this.storage.set(this.key, users)
       return true
     } catch (err) {
-      console.log('set users data error:')
+      if (dev) console.log('set users data error:')
       this.usersObs.next(usersPrev)
       return false
     }
   }
 
-  private async addExistUserToStorage(credentials: Credentials, token: string) {
+  private async addExistUserToStorage(credentials: Credentials, token: string, userId: string) {
+    if (dev) console.log('addExistUserToStorage')
     let result: dataRespone = {
       state: false,
       message: 'Nieznany bład!'
     }
 
     const user: nUser = {
-      id: this.id.generate(),
+      id: userId,
       nickname: credentials.nickname,
       password: credentials.password,
       online: true,
@@ -159,6 +171,7 @@ export class UsersService {
 
     if (success) {
       result.state = true
+      result.message = userId
     } else {
       result.state = false
       result.message = `Błąd dodawania użytkownika`

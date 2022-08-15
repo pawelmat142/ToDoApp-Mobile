@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Credentials, nUser, User } from '../models/user';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { nUser } from '../models/user';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { environment } from '../../environments/environment'
 import { UsersService } from './users.service';
 import { dataRespone } from '../models/dataResponse';
+import { isDevMode } from '@angular/core'
+const dev = isDevMode() ? true : false
 
 
 @Injectable({
@@ -21,13 +23,22 @@ export class UserService {
     public router: Router,
     private usersService: UsersService,
   ) {
+
     this.userObs.subscribe(u => {
       this.userSnapshot = u
-      console.log('user subscribe')
+      if (dev) console.log('user subscribe')
+    })
+
+    this.loggedObs.subscribe(l => {
+      this.loggedSnapshot = l
     })
   }
 
-  public logged: boolean = false
+
+  getUserObs(): Observable<nUser> {
+    return this.userObs.asObservable()
+  }
+
 
   // triggered by app service
   public async initUser(user: nUser): Promise<void> {
@@ -60,6 +71,16 @@ export class UserService {
 
   // LOGIN / LOGOUT
 
+  private loggedObs = new BehaviorSubject<boolean>(false)
+  private loggedSnapshot: boolean = false
+
+  get logged(): boolean { return this.loggedSnapshot}
+
+  public getLoggedObs(): Observable<boolean> {
+    return this.loggedObs.asObservable()
+  }
+
+
   public async setUser(userId: string): Promise<dataRespone> {
     const user = this.usersService.getUserById(userId)
     let result: dataRespone = {
@@ -79,6 +100,7 @@ export class UserService {
   
   public async logout(): Promise<dataRespone> {
     this.usersService.resetToken()
+    this.loggedObs.next(false)
     let result: dataRespone = {
       state: false,
       message: 'Nieznany bład!'
@@ -104,10 +126,11 @@ export class UserService {
 
   private async login () {
     if (this.user?.online) {
-      if (!this.logged) {
+      if (!this.loggedSnapshot) {
         let result = await this.usersService.login({nickname: this.userSnapshot.nickname, password: this.userSnapshot.password})
         if (result.state) {
-          this.logged = true
+          this.loggedObs.next(true)
+          if (dev) console.log(`LOGGED user: ${this.userSnapshot.nickname}`)
         } else {
           const alert = document.createElement('ion-alert');
           alert.header = 'Uwaga!';

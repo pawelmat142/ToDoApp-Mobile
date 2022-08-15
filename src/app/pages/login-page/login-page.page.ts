@@ -1,12 +1,12 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { dataRespone } from 'src/app/models/dataResponse';
-import { Credentials, nUser, User } from 'src/app/models/user';
-import { HttpService } from 'src/app/services/http.service';
+import { Credentials, nUser } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { UsersService } from 'src/app/services/users.service';
+import { isDevMode } from '@angular/core'
+const dev = isDevMode() ? true : false
 
 @Component({
   selector: 'app-login-page',
@@ -31,8 +31,8 @@ export class LoginPagePage {
     public router: Router,
     private usersService: UsersService,
     private userService: UserService
-  ) { 
-    console.log(this.currentUser)
+  ) {
+    if (dev) console.log(`${this.currentUser} logged now`)
   }
   
   @ViewChild('submit', {read: ElementRef}) submitRef: ElementRef
@@ -44,10 +44,6 @@ export class LoginPagePage {
 
   get f() { return this.loginForm.controls }
 
-
-  key(evnet: Event) { 
-    console.log(event)
-  }
 
   async onSubmit(): Promise<void> {
     this.submitted = true
@@ -65,16 +61,18 @@ export class LoginPagePage {
       return
     } 
 
-    console.log('online case')
+    if (dev) console.log('online case')
 
     const result: dataRespone = await this.usersService.login(credentials)
+    const userId = result.message
+    console.log('userId: ' + userId)
 
-    this.message = result.message
+    this.message = 'Zalogowano!'
     this.messageErr = !result.state
 
     if (result.state) {
       this.submitRef.nativeElement.setAttribute('disabled', 'true')
-      setTimeout(() => this.router.navigateByUrl('/tasks', { replaceUrl: true }), 2000)
+      this.userService.setUser(userId)
     } else { 
       setTimeout(() => this.message = '', 5000)
     }

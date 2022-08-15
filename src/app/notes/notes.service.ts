@@ -6,6 +6,8 @@ import { environment } from '../../environments/environment'
 import { Note } from './note-model';
 import { dataRespone } from '../models/dataResponse';
 import { IdService } from '../services/id.service';
+import { isDevMode } from '@angular/core';
+const dev = isDevMode() ? true : false
 
 
 @Injectable({
@@ -21,15 +23,15 @@ export class NotesService {
     private userService: UserService,
     private id: IdService
   ) {
-    console.log('notes service init')
+    if (dev) console.log('notes service init')
     this.notesObs.subscribe(n => {
       this.notesSnapshot = n ? n : []
-      console.log('notes service subscribe')
+      if (dev) console.log('notes service subscribe')
     })
   }
 
   public async loadData() {
-    console.log(`load data NOTES, key: ${this.KEY}`)
+    if (dev) console.log(`load data NOTES, key: ${this.KEY}`)
     const tasks = await this.storage.get(this.KEY) as Note[] || []
     this.notesObs.next(tasks)
   }

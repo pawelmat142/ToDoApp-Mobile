@@ -3,7 +3,6 @@ import { nUser } from 'src/app/models/user';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UsersService } from 'src/app/services/users.service';
-import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-users',

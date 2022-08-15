@@ -6,6 +6,9 @@ import { UserService } from './user.service';
 import { UsersService } from './users.service';
 import { environment } from '../../environments/environment'
 import { nUser } from '../models/user';
+import { isDevMode } from '@angular/core'
+const dev = isDevMode()
+
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +26,11 @@ export class AppService {
 
   private async init() {
     await this.initStorage()
-    console.log('storage initialized')
+    if (dev) console.log('storage initialized')
     await this.initUsers()
-    console.log('users initialized')
+    if (dev) console.log('users initialized')
     await this.initUser()
-    console.log('user initialized')
+    if (dev) console.log('user initialized')
     await this.redirect()
   }
 
@@ -55,15 +58,14 @@ export class AppService {
   private async redirect() {
     const user = this.userService.user
     if (user) {
-      console.log(`user ${user.nickname} logged, redirect to tasks board`)
+      if (dev) console.log(`user ${user.nickname} logged, redirect to tasks board`)
       this.router.navigateByUrl('/tasks', { replaceUrl: true })
       // this.router.navigateByUrl('/notes', { replaceUrl: true })
     } else { 
-      console.log(`no user logged, redirect to users page`)
+      if (dev) console.log(`no user logged, redirect to users page`)
       // this.router.navigateByUrl('/users', { replaceUrl: true })
       this.router.navigateByUrl('/login', { replaceUrl: true })
     }
   }
-
 
 }

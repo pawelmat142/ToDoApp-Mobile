@@ -7,6 +7,17 @@ export interface Task {
   done: boolean,
   subtasks?: Subtask[],
   open?: boolean
+  modifiedOffline?: boolean
+}
+
+export interface TaskOnline { 
+  id?: string, 
+  userId?: string,
+  name: string,
+  important: boolean,
+  deadline?: Date,
+  done: boolean,
+  subtasks?: string,
 }
 
 export interface Subtask {

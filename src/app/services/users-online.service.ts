@@ -5,6 +5,10 @@ import { Credentials, nUser, User } from '../models/user';
 import { Storage } from '@ionic/storage-angular';
 import { environment } from '../../environments/environment'
 import { IdService } from './id.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+import { isDevMode } from '@angular/core';
+const dev = isDevMode() ? true : false
 
 
 @Injectable({
@@ -12,9 +16,7 @@ import { IdService } from './id.service';
 })
 export class UsersOnlineService {
 
-  // private url = 'http://localhost:3333'
-
-  private url = 'https://todo.drawit.click/api'
+  private url = environment.apiUrl
 
   constructor(
     private http: HttpClient, 
@@ -22,8 +24,32 @@ export class UsersOnlineService {
     private id: IdService
   ) { }
 
+
+  // TOKEN
+ 
+  private tokenObs = new BehaviorSubject<string>('')
+
   private headers = new HttpHeaders({ 'Authorization': '' })
-  private token: string
+
+  public getTokenObs(): Observable<string> {
+    return this.tokenObs.asObservable()
+  }
+
+  private setToken(token: string) {
+    if (dev && token) console.log('setting token')
+    this.tokenObs.next(token)
+    this.headers = this.headers.set('Authorization', 'Bearer ' + token)
+    this.storage.set(environment.loggedUsersToken, token)
+  }
+
+  resetToken() {
+    this.tokenObs.next('')
+    this.headers = this.headers.set('Authorization', 'Bearer ' + '')
+    this.storage.set(environment.loggedUsersToken, '')
+  }
+
+
+  // ENDPOINTS
 
   addUser = (user: User) => new Promise<dataRespone>((resolve) => {
     let dataRespone: dataRespone = {
@@ -38,10 +64,10 @@ export class UsersOnlineService {
       confirmPassword: user.password
     }
 
-    this.http.post<never>(this.url + '/register', body).subscribe(
-      () => {
+    this.http.post<never>(this.url + '/register', body, {observe: 'response'}).subscribe(
+      (res) => {
         dataRespone.state = true,
-        dataRespone.message = 'Zarejestrowano'
+        dataRespone.message = res.headers.get('X-Custom-Header')
         resolve(dataRespone)
       },
       (error) => {
@@ -64,12 +90,13 @@ export class UsersOnlineService {
         text: 'Tak',
         role: 'confirm',
         handler: () => {
-          console.log('TODO: do implementacji na backendzie - usuwanie konta')
+          if (dev) console.log('TODO: do implementacji na backendzie - usuwanie konta')
         }
       }];
     document.body.appendChild(alert);
     await alert.present();
   }
+
 
   login = (credentials: Credentials) => new Promise<dataRespone>((resolve,reject) => {
     let dataRespone: dataRespone = {
@@ -81,11 +108,11 @@ export class UsersOnlineService {
       (token) => {
         this.setToken(token)
         dataRespone.state = true
-        dataRespone.message = 'Zalogowano'
+        dataRespone.message = token
         resolve(dataRespone)
       },
       (error) => {
-        console.log(error)
+        if (dev) console.log(error)
         dataRespone.message = error.error.message
         resolve(dataRespone)
       }
@@ -93,17 +120,7 @@ export class UsersOnlineService {
   })
 
 
-  public setToken(token: string) {
-    this.token = token
-    this.headers = this.headers.set('Authorization', 'Bearer ' + token)
-    this.storage.set(environment.loggedUsersToken, token)
-  }
-
-  resetToken() {
-    this.token = ''
-    this.headers = this.headers.set('Authorization', 'Bearer ' + '')
-    this.storage.set(environment.loggedUsersToken, '')
-  }
+  
 
 
 }

@@ -30,7 +30,7 @@ export class MarkDoneDirective {
       this.dy = Math.abs(event.changedTouches[0].clientY - this.yStart)
 
       if (this.dx < 50 && this.dy < 50) {
-        event.stopPropagation()
+        // event.stopPropagation()
         event.preventDefault()
         this.tasksService.markAsDone(this.taskId)
       }

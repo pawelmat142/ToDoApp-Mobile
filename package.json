@@ -28,6 +28,7 @@
     "@ionic/angular": "^6.1.9",
     "@ionic/storage-angular": "^3.0.6",
     "cordova-sqlite-storage": "^6.0.0",
+    "jwt-decode": "^3.1.2",
     "localforage-cordovasqlitedriver": "^1.8.0",
     "rxjs": "~6.6.0",
     "ts-md5": "^1.2.11",

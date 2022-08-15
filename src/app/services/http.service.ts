@@ -19,8 +19,8 @@ export class HttpService {
   private headers = new HttpHeaders({ 'Authorization': '' })
   
   constructor(private http: HttpClient) {
-    const token = localStorage.getItem('token')
-    if (token) this.setTokenHeader(token)
+    // const token = localStorage.getItem('token')
+    // if (token) this.setTokenHeader(token)
   }
   
   
