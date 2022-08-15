@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Credentials, nUser } from '../models/user';
+import { nUser } from '../models/user';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Storage } from '@ionic/storage-angular';
 import { environment } from '../../environments/environment'
@@ -96,18 +96,13 @@ export class UserService {
 
   public async resetCurrentUser(): Promise<void> {
     if (dev) console.log('resetCurrentUser')
-    if (this.userSnapshot?.online) {
-      await this.usersService.removeUserToken(this.userSnapshot.id)
-    }
     await this.storage.set(environment.currentUserKey, '')
     await this.resetToken()
     this.userObs.next(null)
   }
 
 
-
-
-  // ONLINE USER STAFF
+  // ONLINE STAFF
 
   public offlineMode: boolean = false
 
@@ -123,6 +118,7 @@ export class UserService {
     return this.userSnapshot ? this.userSnapshot.online : false
   }
 
+
   private async loginIfUserIsOnline(): Promise<boolean> {
     if (this.userSnapshot?.online) {
       try {
@@ -133,6 +129,7 @@ export class UserService {
     } else return true
   }
 
+
   private async loginCurrentUserOrSetOfflineMode(): Promise<void> {
     if (dev) console.log('loginCurrentUserOrSetOfflineMode')
     let success = await this.loginCurrentUser()
@@ -142,6 +139,7 @@ export class UserService {
     }
   }
 
+  
   private loginCurrentUser = () => new Promise<boolean>((resolve) => {
     this.http.post<any>(this.url + '/login', {
       nickname: this.userSnapshot.nickname,

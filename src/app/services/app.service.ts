@@ -16,7 +16,6 @@ const dev = isDevMode()
 export class AppService {
 
   private users: nUser[]
-
   private currentUser: nUser
 
   constructor(
@@ -35,7 +34,6 @@ export class AppService {
     this.userService.getUserObs().subscribe(user => {
       this.currentUser = user
     })
-
 
   }
 
@@ -74,25 +72,6 @@ export class AppService {
       this.router.navigateByUrl('/users', { replaceUrl: true })
     }
   }
-
-
-  public async closeUser(): Promise<void> {
-    await this.userService.resetCurrentUser()
-    this.router.navigateByUrl('/users', { replaceUrl: true })
-  }
-
-
-  
-
-  // private async initUser() {
-  //   const id = await this.storage.get(environment.loggedUsersKey) as string || ''
-  //   if (id) { 
-  //     const user = this.usersService.users.find(user => user.id === id)
-  //     await this.userService.initUser(user)
-  //   }
-  // }
-
-
 
 
 }

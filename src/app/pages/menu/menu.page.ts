@@ -24,10 +24,12 @@ export class MenuPage implements OnInit {
   ngOnInit() {
   }
 
+  
   // account
 
-  closeUser() { 
-    this.app.closeUser()
+  async closeUser() {
+    await this.userService.resetCurrentUser()
+    this.router.navigateByUrl('/users', { replaceUrl: true })
   }
 
   async deleteAccount() {

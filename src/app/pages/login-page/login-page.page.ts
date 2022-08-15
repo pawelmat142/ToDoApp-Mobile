@@ -104,22 +104,7 @@ export class LoginPagePage {
   }
 
 
-  private async offlineCase(user: nUser, credentials: Credentials) {
-    if (credentials.password === user.password) {
-      // const result = await this.userService.setUser(user.id)
-    } else {
-      this.message = 'Błędne hasło'
-      this.messageErr = true
-      setTimeout(() => {
-        this.message = ''
-        this.messageErr = false
-      },5000)
-    }
-  }
-
-
-
-
+  // OTHERS
 
   private setMessage(result: dataRespone): void {
     if (result.state) {

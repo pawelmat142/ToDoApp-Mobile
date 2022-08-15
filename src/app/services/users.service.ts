@@ -45,6 +45,10 @@ export class UsersService {
 
   // STORAGE STAFF
 
+  private get key(): string {
+    return environment.dataUsersKey
+  }
+
   public get users(): nUser[] {
     return this.usersSnapshot 
   }
@@ -56,11 +60,6 @@ export class UsersService {
   public getUserById(id: string): nUser {
     const user = this.usersSnapshot.find(u => u.id === id)
     return user? user : null
-  }
-
-  public async loadUsers(): Promise<void> {
-    const users = await this.storage.get(environment.dataUsersKey) as nUser[] || null
-    this.usersObs.next(users)
   }
 
 
@@ -75,6 +74,17 @@ export class UsersService {
     else {
       this.setUsersToStorage(usersBefore)
       return { state: false, message: 'Błąd zapisu do bazy!'}
+    }
+  }
+
+
+  public async addNewUser(newUser: nUser): Promise<boolean> {
+    const usersBefore = this.usersSnapshot
+    const success = await this.setUsersToStorage([...this.usersSnapshot, newUser] as nUser[])
+    if (success) return true
+    else {
+      this.setUsersToStorage(usersBefore)
+      return false
     }
   }
 
@@ -96,6 +106,11 @@ export class UsersService {
   }
 
 
+  private async loadUsers(): Promise<void> {
+    const users = await this.storage.get(environment.dataUsersKey) as nUser[] || null
+    this.usersObs.next(users)
+  }
+
   private async resetUsers(): Promise<void> {
     await this.storage.remove(environment.dataUsersKey)
     this.usersObs.next(null)
@@ -115,150 +130,6 @@ export class UsersService {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // OLD
-
-
-  public async removeUserToken(userId: string): Promise<void> {
-    console.log(this.usersSnapshot)
-    const user = this.usersSnapshot.find(u => u.id === userId)
-    console.log(user)
-    user.token = ''
-    // await this.setUsersToStorage(this.usersSnapshot)
-  }
-
-
-  public async addUser(user: nUser): Promise<dataRespone> {
-    console.log('add user')
-    console.log(user)
-    let result: dataRespone = {
-      state: false,
-      message: 'Nieznany bład!'
-    }
-
-    if (this.userExists(user.nickname)) {
-      result.message = 'Użytkownik o takim nicku już istnieje!'
-      return result
-    }
-
-    if (user.online) {
-      const result = await this.usersOnline.addUser(user)
-      if (!result.state) { return result }
-      user.id = result.message
-    } else {
-      user.id = this.id.generate()
-    }
-
-    const usersBefore = this.usersSnapshot
-    const success = await this.setUsersToStorage([...this.usersSnapshot, user] as nUser[])
-
-    if (success) {
-      result.state = true
-      result.message = `Dodano użytkownika: ${user.nickname}!`
-    } else {
-      result.state = false
-      result.message = `Błąd dodawania użytkownika`
-      this.setUsersToStorage(usersBefore)
-    }
-    return result
-  }
-
-  
-  // public async deleteUser(id: string) {
-  //   let result: dataRespone = {
-  //     state: false,
-  //     message: 'Nieznany bład!'
-  //   }
-  //   const user = copy(this.getUserById(id))
-  //   const index = this.usersSnapshot.findIndex(u => u.id === id)
-  //   const deletedUser = this.usersSnapshot.splice(index, 1)
-  //   if (deletedUser.length) {
-  //     result.state = true
-  //     result.message = 'Usunięto!'
-  //     await this.setUsersToStorage(this.usersSnapshot)
-  //     await this.storage.remove(`${this.key}_${id}_tasks`)
-  //     await this.storage.remove(`${this.key}_${id}_notes`)
-  //     if (user.online) {
-  //       this.usersOnline.deleteUser(user)
-  //     }
-  //   } else { 
-  //     result.message = 'Nic nie usunięto'
-  //   }
-  //   return result
-  // }
-
-
-  public async login(credentials: Credentials): Promise<dataRespone> {
-    let dataRespone = await this.usersOnline.login(credentials)
-    if (!dataRespone.state) return dataRespone
-
-    const token = dataRespone.message
-    const userId = jwt_decode(token)['id']
-    dataRespone.message = 'Zalogowano!'
-
-    const userExists = this.user(credentials.nickname)
-
-    if (userExists) {
-      dataRespone.message = userExists.id
-      return dataRespone
-    }
-    else {
-      return await this.addExistUserToStorage(credentials, token, userId)
-    }
-  }
-
-
-  // STORAGE
-
-  private get key(): string {
-    return environment.dataUsersKey
-  }
-  
-
-
-  private async addExistUserToStorage(credentials: Credentials, token: string, userId: string) {
-    if (dev) console.log('addExistUserToStorage')
-    let result: dataRespone = {
-      state: false,
-      message: 'Nieznany bład!'
-    }
-
-    const user: nUser = {
-      id: userId,
-      nickname: credentials.nickname,
-      password: credentials.password,
-      online: true,
-      logged: false,
-      token: token
-    }
-
-    const usersBefore = this.usersSnapshot
-    const success = await this.setUsersToStorage([...this.usersSnapshot, user] as nUser[])
-
-    if (success) {
-      result.state = true
-      result.message = userId
-    } else {
-      result.state = false
-      result.message = `Błąd dodawania użytkownika`
-      this.setUsersToStorage(usersBefore)
-    }
-    return result
-  }
-  
-
   // OTHERS
 
   private user = (nickname: string): nUser => {
@@ -267,10 +138,6 @@ export class UsersService {
 
   private userExists = (nickname: string): boolean => {
     return !!this.usersSnapshot.find(n => n.nickname === nickname)
-  }
-
-  resetToken() {
-    this.usersOnline.resetToken()
   }
 
 }
