@@ -59,6 +59,8 @@ export class AddingFormPage implements OnInit, AfterViewInit {
     this.submitted = true
     if (this.addingForm.invalid) return
 
+    console.log('onsubmit add task')
+
     const newTask: Task = {
       id: this.id.generate(), 
       user_id: this.tasksService.uid,
@@ -74,9 +76,10 @@ export class AddingFormPage implements OnInit, AfterViewInit {
       newTask.subtasks = this.getSubtasks()
     }
     let result = await this.tasksService.addTask(newTask)
-    this.message = result.message
+    console.log(result)
+    this.message = result ? 'Sukces' : 'Błąd'
 
-    if (result.state) {
+    if (result) {
       setTimeout(() => this.router.navigateByUrl('/tasks', { replaceUrl: true }), 500)
     } else { 
       this.messageErr = true

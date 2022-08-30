@@ -47,6 +47,10 @@ export class NotesService {
     return this.notesObs.asObservable()
   }
 
+  public clearObservable(): void {
+    this.notesObs.next([])
+  }
+
   public async addNote(note: Partial<Note>): Promise<dataRespone> {
     const newNote: Note = this.prepereNewNote(note)
     let result: dataRespone = {

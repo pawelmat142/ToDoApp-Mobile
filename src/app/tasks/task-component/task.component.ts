@@ -72,8 +72,8 @@ export class TaskComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl('/edit-task', { replaceUrl: true })
   }
 
-  important() { 
-    this.taskImportant = this.tasksService.important(this.task.id)
+  async important() { 
+    this.taskImportant = await this.tasksService.important(this.task.id)
   }
 
   

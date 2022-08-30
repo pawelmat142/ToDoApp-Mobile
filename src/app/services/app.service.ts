@@ -37,15 +37,24 @@ export class AppService {
 
   }
 
+  public initialized: boolean = false
+
+  public get authenticated(): boolean {
+    return !!this.userService.user
+  }
+
   private async init() {
     await this.initStorage()
     if (dev) console.log('storage initialized')
 
     await this.initUsers()
     if (dev) console.log('users initialized')
+    this.initialized = true
 
     await this.initUser()
     if (dev) console.log('user initialized')
+
+    console.log('INITIALIZED!')
 
     await this.redirect()
   }

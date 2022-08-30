@@ -24,8 +24,6 @@ export class UsersService {
   constructor(
     public router: Router,
     public storage: Storage,
-    private usersOnline: UsersOnlineService,
-    private id: IdService
   ) { 
     if (dev) console.log('usersService constructor')
 
@@ -42,12 +40,6 @@ export class UsersService {
     await this.loadUsers()
   }
 
-
-  // STORAGE STAFF
-
-  private get key(): string {
-    return environment.dataUsersKey
-  }
 
   public get users(): nUser[] {
     return this.usersSnapshot 
@@ -89,6 +81,14 @@ export class UsersService {
   }
 
 
+  public async removeUserToken(userId: string) {
+    this.usersSnapshot.find(u => u.id === userId)['token'] = ''
+    this.setUsersToStorage(this.usersSnapshot)
+  }
+    
+
+  // STORAGE STAFF
+
   public async deleteUserInStorage(id: string): Promise<boolean> {
     const user = copy(this.getUserById(id))
     const index = this.usersSnapshot.findIndex(u => u.id === id)
@@ -97,14 +97,15 @@ export class UsersService {
       await this.setUsersToStorage(this.usersSnapshot)
       await this.storage.remove(`${this.key}_${id}_tasks`)
       await this.storage.remove(`${this.key}_${id}_notes`)
-      if (user.online) {
-        console.log('TODO: deleting user online')
-      }
       return true
     } 
     return false
   }
 
+
+  private get key(): string {
+    return environment.dataUsersKey
+  }
 
   private async loadUsers(): Promise<void> {
     const users = await this.storage.get(environment.dataUsersKey) as nUser[] || null

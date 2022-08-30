@@ -9,6 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 import { isDevMode } from '@angular/core'
+import { Router } from '@angular/router';
 const dev = isDevMode() ? true : false
 
 
@@ -21,10 +22,13 @@ export class UserService {
   private userObs = new BehaviorSubject<nUser>(null)
   private userSnapshot: nUser = null
 
+  public initialized: boolean = false
+
   constructor(
     private usersService: UsersService,
     public storage: Storage,
     private http: HttpClient,
+    private router: Router
   ) {
     if (dev) console.log('userService constructor')
 
@@ -59,17 +63,19 @@ export class UserService {
   }
 
   private async loadCurrentUser(): Promise<boolean> {
-    let result = true
     const currentUserId = await this.storage.get(environment.currentUserKey) as string || null
-    if (currentUserId) {
-      this.userObs.next(this.usersService.getUserById(currentUserId))
-    } else result = false
+    if (!currentUserId) return false
 
-    const loginResult = await this.loginIfUserIsOnline()
-    if (!loginResult) result = false
+    const currentUser = this.usersService.getUserById(currentUserId)
+    if (!currentUser) return false
 
-    if (!result) await this.resetCurrentUser()
-    return result
+    if (currentUser.online) {
+      const loginResult = await this.loginIfUserIsOnline()
+      if (!loginResult) return false
+    } 
+
+    this.userObs.next(currentUser)
+    return true
   }
 
 
@@ -109,6 +115,16 @@ export class UserService {
   private url = environment.apiUrl
 
   private headers = new HttpHeaders({ 'Authorization': '' })
+  private isTokenSet: boolean = false
+
+  public getHeaders() {
+    if (!this.isTokenSet) {
+      this.resetCurrentUser()
+      this.router.navigateByUrl('/users', { replaceUrl: true })
+      throw new Error('Token missing!')
+    }
+    return this.headers
+  }
 
   public get token(): string {
     return this.userSnapshot ? this.userSnapshot.token : ''
@@ -180,11 +196,14 @@ export class UserService {
   public async setToken(token: string) {
     if (dev) console.log('setting token ' + token)
     this.headers = this.headers.set('Authorization', token? `Bearer ${token}` : '')
+    this.isTokenSet = token ? true : false
     await this.storage.set(environment.currentUserToken, token)
   }
-
+  
   private async resetToken() {
+    console.log('resetToken')
     this.headers = this.headers.set('Authorization', '')
+    this.isTokenSet = false
     await this.storage.set(environment.currentUserToken, '')
   }
 

@@ -65,6 +65,7 @@ export class LoginPagePage {
       if (dev) console.log('user exist')
       let result = await this.userService.chooseUser(userExist.id)
       this.setMessage(result)
+      if (result.state) this.router.navigateByUrl('/tasks', { replaceUrl: true })
       return
     } 
     else {

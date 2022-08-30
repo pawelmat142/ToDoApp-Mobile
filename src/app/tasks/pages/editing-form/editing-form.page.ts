@@ -96,9 +96,9 @@ export class EditingFormPage implements OnInit, OnDestroy {
       newTask.subtasks = this.getSubtasks()
     }
     let result = await this.tasksService.editTask(newTask)
-    this.message = result.message
+    this.message = result ? 'Sukces' : 'Błąd'
 
-    if (result.state) {
+    if (result) {
       setTimeout(() => this.router.navigateByUrl('/tasks', { replaceUrl: true }), 500)
     } else { 
       this.messageErr = true

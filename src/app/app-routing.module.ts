@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './providers/authGuard';
 
 const routes: Routes = [
   {
@@ -13,15 +14,17 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    loadChildren: () => import('./pages/users-page/users.module').then( m => m.UsersPageModule)
+    loadChildren: () => import('./pages/users-page/users.module').then( m => m.UsersPageModule),
   },
   {
     path: 'tasks',
-    loadChildren: () => import('./tasks/pages/tasks-board/tasks-board.module').then( m => m.TasksBoardPageModule)
+    loadChildren: () => import('./tasks/pages/tasks-board/tasks-board.module').then( m => m.TasksBoardPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'notes',
-    loadChildren: () => import('./notes/pages/notes-board/notes-board.module').then( m => m.NotesBoardPageModule)
+    loadChildren: () => import('./notes/pages/notes-board/notes-board.module').then( m => m.NotesBoardPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
@@ -29,15 +32,17 @@ const routes: Routes = [
   },
   {
     path: 'register',
-    loadChildren: () => import('./pages/register-page/register-page.module').then( m => m.RegisterPagePageModule)
+    loadChildren: () => import('./pages/register-page/register-page.module').then( m => m.RegisterPagePageModule),
   },
   {
     path: 'add-task',
-    loadChildren: () => import('./tasks/pages/adding-form/adding-form.module').then( m => m.AddingFormPageModule)
+    loadChildren: () => import('./tasks/pages/adding-form/adding-form.module').then( m => m.AddingFormPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'edit-task',
-    loadChildren: () => import('./tasks/pages/editing-form/editing-form.module').then( m => m.EditingFormPageModule)
+    loadChildren: () => import('./tasks/pages/editing-form/editing-form.module').then( m => m.EditingFormPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'manual',
@@ -49,11 +54,13 @@ const routes: Routes = [
   },
   {
     path: 'add-note',
-    loadChildren: () => import('./notes/pages/add-note/add-note.module').then( m => m.AddNotePageModule)
+    loadChildren: () => import('./notes/pages/add-note/add-note.module').then( m => m.AddNotePageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'edit-note',
-    loadChildren: () => import('./notes/pages/edit-note/edit-note.module').then( m => m.EditNotePageModule)
+    loadChildren: () => import('./notes/pages/edit-note/edit-note.module').then( m => m.EditNotePageModule),
+    canActivate: [AuthGuard]
   },
 
 

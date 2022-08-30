@@ -1,11 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { nUser } from 'src/app/models/user';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UsersService } from 'src/app/services/users.service';
+import { dataRespone } from 'src/app/models/dataResponse';
+import { Subscription } from 'rxjs';
 
 import { isDevMode } from '@angular/core'
-import { dataRespone } from 'src/app/models/dataResponse';
 const dev = isDevMode() ? true : false
 
 @Component({
@@ -13,9 +14,11 @@ const dev = isDevMode() ? true : false
   templateUrl: './users.page.html',
   styleUrls: ['./users.page.scss'],
 })
-export class UsersPage implements OnInit, OnDestroy {
+export class UsersPage {
 
   users: nUser[] = []
+
+  private usersSubscribtion: Subscription
 
   constructor(
     public router: Router,
@@ -23,28 +26,28 @@ export class UsersPage implements OnInit, OnDestroy {
     private userService: UserService,
   ) {
     if (dev) console.log('usersPage constructor')
-    this.usersSubscribtion = this.usersService.getUsersObs().subscribe((users: nUser[]) => {
-      this.users = users
+    if (!this.usersSubscribtion) {
+      console.log('users page subscribtion')
+      this.usersSubscribtion = this.usersService.getUsersObs().subscribe((users: nUser[]) => {
+        this.users = users
+      })
+    }
+  }
+
+  ionViewWillEnter() {
+    this.usersSubscribtion = this.usersService.getUsersObs().subscribe(u => {
+      this.users = u
     })
+  }
+
+  ionViewWillLeave() {
+    this.usersSubscribtion.unsubscribe()
   }
 
   message: string
   messageErr: boolean = false
 
-  usersSubscribtion: any
-
-  ngOnInit() {
-    this.userService
-    this.usersSubscribtion = this.usersService.getUsersObs().subscribe((users: nUser[]) => {
-      this.users = users
-    })
-  }
-
-  ngOnDestroy() {
-    this.usersSubscribtion.unsubscribe()
-  }
-
-
+  
   async chooseUser(user: nUser): Promise<void> {
     let result = await this.userService.chooseUser(user.id)
     this.setMessage(result)

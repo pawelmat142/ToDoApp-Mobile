@@ -3,8 +3,11 @@ import { Router } from '@angular/router';
 import { taskFilter, TasksService } from 'src/app/tasks/tasks.service';
 import { UserService } from 'src/app/services/user.service';
 import { UsersService } from 'src/app/services/users.service';
-import { AppService } from 'src/app/services/app.service';
+import { NotesService } from 'src/app/notes/notes.service';
 
+
+import { isDevMode } from '@angular/core'
+const dev = isDevMode() ? true : false
 
 @Component({
   selector: 'app-menu',
@@ -16,18 +19,22 @@ export class MenuPage implements OnInit {
   constructor(
     private userService: UserService,
     private tasksService: TasksService,
+    private notesService: NotesService,
     public router: Router,
     private usersService: UsersService,
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 
   // account
 
   async closeUser() {
+    this.usersService.removeUserToken(this.userService.id)
     await this.userService.resetCurrentUser()
+    this.tasksService.clearObservable()
+    this.notesService.clearObservable()
+    if (dev) console.log('user closing!')
     this.router.navigateByUrl('/users', { replaceUrl: true })
   }
 
@@ -46,6 +53,7 @@ export class MenuPage implements OnInit {
       role: 'confirm',
       handler: async () => {
         this.userService.resetCurrentUser()
+        console.log('TODO: deleting user online')
         const success = await this.usersService.deleteUserInStorage(this.userService.id)
         if (success) {
           this.router.navigateByUrl('/users', { replaceUrl: true })

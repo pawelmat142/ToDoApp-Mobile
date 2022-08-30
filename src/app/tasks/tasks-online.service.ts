@@ -7,6 +7,7 @@ import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment'
 
 import { isDevMode } from '@angular/core';
+import { UserService } from '../services/user.service';
 const dev = isDevMode() ? true : false
 
 @Injectable({
@@ -14,96 +15,152 @@ const dev = isDevMode() ? true : false
 })
 export class TasksOnlineService {
 
-  private headers = new HttpHeaders({ 'Authorization': '' })
-
   private url = environment.apiUrl
   
   constructor(
     private http: HttpClient,
-    private usersOnline: UsersOnlineService
+    private userService: UserService
   ) {
-    this.headers = new HttpHeaders({ 'Authorization': '' })
-    
-    this.usersOnline.getTokenObs().subscribe(token => {
-    if (dev) console.log(`setting token in tasksOnSer: ${token}`)
-    if (token) {
-        // this.headers = this.headers.set('Authorization', 'Bearer ' + 'xxx')
-        this.headers = this.headers.set('Authorization', 'Bearer ' + token)
-      } else {
-        this.headers = this.headers.set('Authorization', '')
-      }
-    })
+  }
+
+  private get headers(): HttpHeaders {
+    return this.userService.getHeaders()
   }
 
 
   getTasks = () => new Promise<Task[]>(resolve => {
-    this.http.get<TaskOnline[]>(this.url + '/tasks', {headers: this.headers}).subscribe(
+    this.http.get<TaskOnline[]>(this.url + '/tasks', {
+      headers: this.headers
+    }).subscribe(
       (tasks: TaskOnline[]) => {
         resolve(tasks.map(t => this.taskOnlineToTask(t)))
       },
-      (error) => {
-        resolve(null)
-      }
+      (error) => resolve(null)
     )
   })
     
 
-  addTask = (_task: Task) => new Promise<dataRespone>((resolve) => {
+  addTask = (_task: Task) => new Promise<string>((resolve) => {
     if (dev) console.log('add task online')
-    let dataRespone: dataRespone = {
-      state: false,
-      message: 'Nieznany bład!'
-    }
-
-    let task: TaskOnline = this.getTaskOnline(_task)
+    let task: TaskOnline = this.taskToTaskOnline(_task)
 
     this.http.post<any>(this.url + '/task', task, { 
       headers: this.headers,
       observe: 'response'
     }).subscribe(
-        (res) => {
-          dataRespone.state = true
-          dataRespone.message = res.headers.get('X-Custom-Header')  //id
-          resolve(dataRespone)
-        },
-        (error) => {
-          dataRespone.message = this.getErrorMessage(error)
-          resolve(dataRespone)
-        }
-      )
+      (res) => {
+        const newTaskId = res.headers.get('X-Custom-Header')
+        resolve(newTaskId)
+      },
+      (error) => resolve('')
+    )
   })
 
 
-  editTask = (newTask: Task) => new Promise<dataRespone>((resolve) => {
-    let dataRespone: dataRespone = {
-      state: false,
-      message: 'Nieznany bład!'
-    }
+  editTask = (newTask: Task) => new Promise<boolean>((resolve) => {
+    let task: TaskOnline = this.taskToTaskOnline(newTask)
 
     console.log(newTask)
-
-    let task: TaskOnline = this.getTaskOnline(newTask)
-
-    console.log(task)
-
-    console.log(this.headers)
 
     const params = new HttpParams().set('_id', task.id)
     this.http.put<void>(this.url + '/task', task, {
       params: params,
       headers: this.headers
     }).subscribe(
-      (data) => {
-        console.log(data)
-      },
-      (error) => {
-        console.log(error)
-      }
+      (data) => resolve(true),
+      (error) => resolve(false)
     )
+  })
 
-    return dataRespone
 
-  })  
+  removeTask = (taskId: string) => new Promise<boolean>(resolve => {
+    const params = new HttpParams().set('_id', taskId)
+    this.http.delete<void>(this.url + '/delete', {
+      params: params,
+      headers: this.headers
+    }).subscribe(
+      () => resolve(true),
+      error => resolve(false)
+    )
+  })
+  
+  markAsDone = (taskId: string, done: boolean) => new Promise<boolean>(resolve => {
+    const params = new HttpParams().set('_id', taskId)
+    const body = {done: done}
+
+    this.http.patch<void>(this.url + '/done', body, {
+      params: params,
+      headers: this.headers
+    }).subscribe(
+      () => resolve(true),
+      error => resolve(false)
+    )
+  })
+    
+  markAsImportant = (taskId: string, important: boolean) => new Promise<boolean>(resolve => {
+    const params = new HttpParams().set('_id', taskId)
+    const body = {important: important}
+
+    this.http.patch<void>(this.url + '/important', body, {
+      params: params,
+      headers: this.headers
+    }).subscribe(
+      () => resolve(true),
+      error => resolve(false)
+    )
+  })
+
+  updateSubtasks = (taskId: string, subtasks: Subtask[]) => new Promise<boolean>(resolve => {
+    const params = new HttpParams().set('_id', taskId)
+    const body = {subtasks: JSON.stringify(subtasks)}
+    
+    this.http.patch<void>(this.url + '/subtasks', body, {
+      params: params,
+      headers: this.headers
+    }).subscribe(
+      () => resolve(true),
+      error => resolve(false)
+    )
+  })
+  
+  reorder = (tasks: Task[]) => new Promise<boolean>(resolve => {
+
+    const tasksOnline = tasks.map(task => this.taskToTaskOnline(task))
+    const body = { tasks: tasksOnline }
+
+    this.http.post<void>(this.url + '/reorder', body, {
+      headers: this.headers
+    }).subscribe(
+      () => resolve(true),
+      error => resolve(false)
+      
+    )
+  })
+
+
+  deleteAll = () => new Promise<boolean>(resolve => {
+    this.http.delete<void>(this.url + '/del', {
+      headers: this.headers
+    }).subscribe(
+      () => resolve(true),
+      error => resolve(false)
+    )
+  })
+
+
+  deleteAllDone = () => new Promise<boolean>(resolve => {
+    this.http.delete<void>(this.url + '/deldone', {
+      headers: this.headers
+    }).subscribe(
+      () => resolve(true),
+      error => resolve(false)
+    )
+  })
+
+
+
+
+
 
 
 
@@ -116,7 +173,7 @@ export class TasksOnlineService {
   }
 
 
-  private getTaskOnline(task: Task): TaskOnline {
+  private taskToTaskOnline(task: Task): TaskOnline {
     let result: TaskOnline = {
       name: task.name,
       done: task.done,

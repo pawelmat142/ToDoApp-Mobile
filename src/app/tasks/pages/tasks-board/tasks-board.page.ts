@@ -3,6 +3,10 @@ import { IonReorderGroup, ItemReorderEventDetail, ToastController } from '@ionic
 import { Task } from 'src/app/tasks/task-model';
 import { taskFilter, TasksService } from 'src/app/tasks/tasks.service';
 import { Subscription } from 'rxjs'
+import { filter } from 'rxjs/operators'
+
+import { isDevMode } from '@angular/core'
+const dev = isDevMode() ? true : false
 
 @Component({
   selector: 'app-tasks-board',
@@ -11,20 +15,28 @@ import { Subscription } from 'rxjs'
 })
 export class TasksBoardPage {
 
+  tasks: Task[]
+  private tasksSubscribtion: Subscription
+
   constructor(
     private tasksService: TasksService,
     public toastController: ToastController,
-  ) { 
-    this.subscribeTasks()
+  ) {
+    if (dev) console.log('tasksComponent constructor')
   }
 
-  tasks: Task[]
+  async ionViewWillEnter() {
+    await this.tasksService.loadTasks()
+    this.tasksSubscribtion = this.tasksService.getTasksObs()
+      .subscribe(t => {
+        this.tasks = t.filter(t => t.name !== '$$delete$$')
+      })
+  }
+  
+  async ionViewWillLeave() {
+    this.tasksSubscribtion.unsubscribe()
+  }
 
-  private subscribeTasks = () => this.tasksService
-    .getTasks().subscribe($tasks => this.tasks = $tasks)
-
-  ionViewWillEnter = async () => await this.tasksService.loadData()
-  // ionViewWillLeave = () => this.tasksService.killData()
 
 
   // REORDER
@@ -50,17 +62,12 @@ export class TasksBoardPage {
   }
 
   async reorderToast() {
-    let msg = ''
-    if (this.reorderGroup.disabled) {
-      msg = 'Sortowanie zadań zostało wyłączone!'
-    } else msg = 'Sortowanie zadań zostało włączone!'
-
     const toast = await this.toastController.create({
       header: 'Sortowanie '+(this.reorderGroup.disabled?'wyłączone!':'włączone!'),
       position: 'middle',
       duration: 500,
       cssClass: 'my-toast'
-    });
+    })
     await toast.present();
   }
 
@@ -68,7 +75,7 @@ export class TasksBoardPage {
   doReorder(event: CustomEvent<ItemReorderEventDetail>) {
     const from = event.detail.from
     const to = event.detail.to
-    console.log('Dragged from index', event.detail.from, 'to', event.detail.to);
+    console.log('Dragged from index', event.detail.from, 'to', event.detail.to)
     this.tasksService.reorder(this.tasks[from].id, this.tasks[to].id)
     // dokonczyc animacje wracania
     event.detail.complete()
