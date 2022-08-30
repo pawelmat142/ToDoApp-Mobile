@@ -3,6 +3,8 @@ import { Note, NoteParagraph } from 'src/app/notes/note-model';
 import { IonAccordionGroup, ToastController } from '@ionic/angular';
 import { NotesService } from 'src/app/notes/notes.service';
 import { Router } from '@angular/router';
+import { isDevMode } from '@angular/core'
+const dev = isDevMode() ? true : false
 
 @Component({
   selector: 'app-note',

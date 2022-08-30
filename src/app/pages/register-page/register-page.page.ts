@@ -1,10 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { dataRespone } from 'src/app/models/dataResponse';
-import { nUser } from 'src/app/models/user';
 import { UsersService } from 'src/app/services/users.service';
 import { CustomValidators } from '../../providers/validators';
+import { environment } from '../../../environments/environment'
+import { IdService } from 'src/app/services/id.service';
 
 
 @Component({
@@ -16,7 +18,9 @@ export class RegisterPagePage {
 
   constructor(
     private usersService: UsersService,
-    public router: Router
+    public router: Router,
+    private http: HttpClient,
+    private id: IdService
   ) { }
 
   registerForm = new FormGroup(
@@ -40,30 +44,74 @@ export class RegisterPagePage {
 
   async onSubmit(): Promise<void> {
     if (this.registerForm.invalid) return
-    if (!this.f.online.value) {
-      const newUser: nUser = {
-        id: this.f.nickname.value,
-        nickname: this.f.nickname.value,
-        password: this.f.password.value,
-        logged: false,
-        online: this.f.online.value,
-      }
-      const result: dataRespone = await this.usersService.addUser(newUser)
-      this.message = result.message
-      this.messageErr = !result.state
-      
-      if (result.state) {
-        this.submitRef.nativeElement.setAttribute('disabled', 'true')
-        setTimeout(() => this.router.navigateByUrl('/users', { replaceUrl: true }), 2000)
-      } else { 
-        setTimeout(() => this.message = '', 5000)
-      }
-    } else { 
-      this.message = 'online nieobslużone!!!'
-      this.messageErr = true
+    this.submitted = true
+
+    const userExist = this.usersService.users.find(u => u.nickname === this.f.nickname.value)
+    if (userExist) {
+      this.setMessage({state: false, message: 'Użytkownik o takim nicku już istnieje'})
+      return
     }
 
-    this.submitted = true
+    let userId: string
+    if (this.f.online.value) {
+      userId = await this.addUserToDb()
+      if (!userId) return
+    } else {
+      userId = this.id.generate()
+    }
+
+    const success = await this.usersService.addNewUser({
+      id: userId,
+      nickname: this.f.nickname.value,
+      password: this.f.password.value,
+      logged: false,
+      online: this.f.online.value,
+    })
+
+    if (success) {
+      this.setMessage({state: true, message: 'Dodano użytkownika ' + this.f.nickname.value})
+      setTimeout(() => this.router.navigateByUrl('/users', { replaceUrl: true }), 2000)
+    } else {
+      this.setMessage({state: false, message: 'Błąd dodawania do pamięci!'})
+    }
+  }
+
+
+  // ONLINE STAFF
+
+  private url = environment.apiUrl
+
+  private addUserToDb = () => new Promise<string>((resolve) => {
+    const body = {
+      nickname: this.f.nickname.value,
+      password: this.f.password.value,
+      confirmPassword: this.f.password.value
+    }
+    this.http.post<never>(this.url + '/register', body, {observe: 'response'}).subscribe(
+      (res) => {
+        const userId = res.headers.get('X-Custom-Header')
+        resolve(userId)
+      },
+      (error) => {
+        this.setMessage({state: false, message: error.error.message})
+        resolve('')
+      }
+    )
+  })
+
+
+  // OTHERS
+
+  private setMessage(result: dataRespone): void {
+    if (result.state) {
+      this.submitRef.nativeElement.setAttribute('disabled', 'true')
+    }
+    this.message = result.message
+    this.messageErr = !result.state
+    setTimeout(() => {
+      this.message = ''
+      this.messageErr = false
+    }, 5000)
   }
 
 }

@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IonReorderGroup, ItemReorderEventDetail, ToastController } from '@ionic/angular';
 import { Note } from 'src/app/notes/note-model';
-import { Subscription } from 'rxjs'
 import { NotesService } from 'src/app/notes/notes.service';
+import { isDevMode } from '@angular/core';
+const dev = isDevMode() ? true : false
 
 
 @Component({
@@ -68,7 +69,7 @@ export class NotesBoardPage {
   doReorder(event: CustomEvent<ItemReorderEventDetail>) {
     const from = event.detail.from
     const to = event.detail.to
-    console.log('Dragged from index', event.detail.from, 'to', event.detail.to);
+    if (dev) console.log(`Dragged from index ${event.detail.from}, to ${event.detail.to}`);
     this.notesService.reorder(this.notes[from].id, this.notes[to].id)
     // dokonczyc animacje wracania
     event.detail.complete()

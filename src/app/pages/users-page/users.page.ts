@@ -1,53 +1,69 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { nUser } from 'src/app/models/user';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import { environment } from '../../../environments/environment'
 import { UsersService } from 'src/app/services/users.service';
+import { dataRespone } from 'src/app/models/dataResponse';
+import { Subscription } from 'rxjs';
 
+import { isDevMode } from '@angular/core'
+const dev = isDevMode() ? true : false
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.page.html',
   styleUrls: ['./users.page.scss'],
 })
-export class UsersPage implements OnInit, OnDestroy {
+export class UsersPage {
 
   users: nUser[] = []
+
+  private usersSubscribtion: Subscription
 
   constructor(
     public router: Router,
     private usersService: UsersService,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+  ) {
+    if (dev) console.log('usersPage constructor')
+    if (!this.usersSubscribtion) {
+      console.log('users page subscribtion')
+      this.usersSubscribtion = this.usersService.getUsersObs().subscribe((users: nUser[]) => {
+        this.users = users
+      })
+    }
+  }
+
+  ionViewWillEnter() {
+    this.usersSubscribtion = this.usersService.getUsersObs().subscribe(u => {
+      this.users = u
+    })
+  }
+
+  ionViewWillLeave() {
+    this.usersSubscribtion.unsubscribe()
+  }
 
   message: string
   messageErr: boolean = false
 
-  usersSubscribtion: any
-
-  ngOnInit() {
-    this.userService
-    this.usersSubscribtion = this.usersService.get().subscribe((users: nUser[]) => {
-      this.users = users
-    })
-  }
-
-  ngOnDestroy() {
-    this.usersSubscribtion.unsubscribe()
-  }
-
-
-  chooseUser(user: nUser): void {
-    if (user.online) {
-      this.message = 'online nieobslużone!'
-      this.messageErr = true
-      this.message = ''
-    } else {
-      console.log(user.id)
-      this.userService.login(user.id)
+  
+  async chooseUser(user: nUser): Promise<void> {
+    let result = await this.userService.chooseUser(user.id)
+    this.setMessage(result)
+    if (result.state) {
+      this.router.navigateByUrl('/tasks', { replaceUrl: true })
     }
+  }
+
+
+  private setMessage(result: dataRespone): void {
+    this.message = result.message
+    this.messageErr = !result.state
+    setTimeout(() => {
+      this.message = ''
+      this.messageErr = false
+    }, 5000)
   }
 
 }

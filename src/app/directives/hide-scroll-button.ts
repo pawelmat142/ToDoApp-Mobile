@@ -1,5 +1,7 @@
 import { AfterViewInit, Directive, ElementRef, HostListener, Input, Renderer2, ViewChildren } from '@angular/core';
 import { DomController, IonFab } from '@ionic/angular';
+import { isDevMode } from '@angular/core'
+const dev = isDevMode() ? true : false
 
 
 @Directive({
@@ -22,7 +24,7 @@ export class HideScrollButtonDirective implements AfterViewInit {
 
   private initHideScrollButtons() {
     this.buttons = document.querySelectorAll('.hide-scroll-button')
-    console.log(`${this.buttons.length} hide scroll buttons initialized`)
+    if (dev) console.log(`${this.buttons.length} hide scroll buttons initialized`)
     if (this.buttons.length === 0) setTimeout(() => this.initHideScrollButtons(),1000)
   }
 

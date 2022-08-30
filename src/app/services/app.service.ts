@@ -6,28 +6,56 @@ import { UserService } from './user.service';
 import { UsersService } from './users.service';
 import { environment } from '../../environments/environment'
 import { nUser } from '../models/user';
+import { isDevMode } from '@angular/core'
+const dev = isDevMode()
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
 
+  private users: nUser[]
+  private currentUser: nUser
+
   constructor(
     public router: Router,
     public storage: Storage,
+    private usersService: UsersService,
     private userService: UserService,
-    private usersService: UsersService
   ) {
+    if (dev) console.log('appService constructor')
     this.init()
+
+    this.usersService.getUsersObs().subscribe(users => {
+      this.users = users
+    })
+
+    this.userService.getUserObs().subscribe(user => {
+      this.currentUser = user
+    })
+
+  }
+
+  public initialized: boolean = false
+
+  public get authenticated(): boolean {
+    return !!this.userService.user
   }
 
   private async init() {
     await this.initStorage()
-    console.log('storage initialized')
+    if (dev) console.log('storage initialized')
+
     await this.initUsers()
-    console.log('users initialized')
+    if (dev) console.log('users initialized')
+    this.initialized = true
+
     await this.initUser()
-    console.log('user initialized')
+    if (dev) console.log('user initialized')
+
+    console.log('INITIALIZED!')
+
     await this.redirect()
   }
 
@@ -36,30 +64,20 @@ export class AppService {
     await this.storage.create()
   }
 
-
   private async initUsers() {
-    const users = await this.storage.get(environment.dataUsersKey) as nUser[] || null
-    await this.usersService.initUsers(users)
+    await this.usersService.initUsers()
   }
-
 
   private async initUser() {
-    const id = await this.storage.get(environment.loggedUsersKey) as string || ''
-    if (id) { 
-      const user = this.usersService.users.find(user => user.id === id)
-      await this.userService.initUser(user)
-    }
+    await this.userService.initUser()
   }
 
-
   private async redirect() {
-    const user = this.userService.user
-    if (user) {
-      console.log(`user ${user.nickname} logged, redirect to tasks board`)
+    if (this.currentUser) {
+      if (dev) console.log(`user ${this.currentUser.nickname} loaded, redirect to tasks board`)
       this.router.navigateByUrl('/tasks', { replaceUrl: true })
-      // this.router.navigateByUrl('/notes', { replaceUrl: true })
-    } else { 
-      console.log(`no user logged, redirect to users page`)
+    } else {
+      if (dev) console.log(`no user logged, redirect to users page`)
       this.router.navigateByUrl('/users', { replaceUrl: true })
     }
   }

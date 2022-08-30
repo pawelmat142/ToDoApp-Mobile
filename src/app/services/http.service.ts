@@ -19,10 +19,14 @@ export class HttpService {
   private headers = new HttpHeaders({ 'Authorization': '' })
   
   constructor(private http: HttpClient) {
-    const token = localStorage.getItem('token')
-    if (token) this.setTokenHeader(token)
+    // const token = localStorage.getItem('token')
+    // if (token) this.setTokenHeader(token)
   }
   
+  
+  test(): Observable<never> {
+    return this.http.get<never>(this.url + '/test')
+  }
   
   register(body: RegisterForm): Observable<never> {
     return this.http.post<never>(this.url + '/register', body)

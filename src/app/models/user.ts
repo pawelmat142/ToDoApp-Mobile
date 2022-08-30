@@ -10,4 +10,10 @@ export interface nUser {
   password: string
   logged: boolean
   online: boolean
+  token?: string
+}
+
+export interface Credentials {
+  nickname: string,
+  password: string
 }

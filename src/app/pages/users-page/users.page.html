@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>Wybierz użytkownika</ion-title>
     <ion-buttons slot="secondary">
-      <!-- <ion-back-button defaultHref="/" size="large"></ion-back-button> -->
+      <ion-back-button defaultHref="/start" size="large"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -27,6 +27,7 @@
   </div> -->
 
   <ion-button class="ion-margin-top" type="button" expand="block" size="large" color="tertiary" routerLink="/register">Nowy użytkownik</ion-button>
+  <ion-button class="ion-margin-top" type="button" expand="block" color="tertiary" routerLink="/login">Zaloguj</ion-button>
   
   <!-- ERRORS -->
   <ion-text *ngIf="message" class="form-message" [color]="messageErr?'danger':'success'">

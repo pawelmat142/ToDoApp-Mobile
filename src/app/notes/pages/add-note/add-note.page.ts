@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Note, NoteParagraph } from 'src/app/notes/note-model';
 import { NotesService } from 'src/app/notes/notes.service';
+import { isDevMode } from '@angular/core'
+const dev = isDevMode() ? true : false
 
 @Component({
   selector: 'app-add-note',

@@ -108,6 +108,12 @@
   <ion-button class="ion-margin-top" type="button" expand="block" size="large" [disabled]="addingForm.invalid" color="secondary" (click)="onSubmit()">Dodaj Zadanie</ion-button>
   
   <ion-button class="ion-margin-top" type="submit" expand="block" color="tertiary" (click)="addSubtask()">Dodaj etap</ion-button>
+
+  <!-- MESSAGE -->
+  <ion-text *ngIf="message" class="form-message" [color]="messageErr?'danger':'success'">
+    <p>{{message}}</p>
+  </ion-text>
+
 </form>
   
 </ion-content>
