@@ -3,18 +3,14 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './providers/authGuard';
 
 const routes: Routes = [
-  {
-    path: '',
-    loadChildren: () => import('./pages/start/start.module').then( m => m.StartPageModule)
-    // loadChildren: () => import('./pages/users-page/users.module').then( m => m.UsersPageModule)
-  },
+  { path: '', pathMatch: 'full', redirectTo: 'users' },
   {
     path: 'start',
     loadChildren: () => import('./pages/start/start.module').then( m => m.StartPageModule)
   },
   {
     path: 'users',
-    loadChildren: () => import('./pages/users-page/users.module').then( m => m.UsersPageModule),
+    loadChildren: () => import('./users/users-page/users.module').then( m => m.UsersPageModule),
   },
   {
     path: 'tasks',
@@ -28,11 +24,11 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login-page/login-page.module').then( m => m.LoginPagePageModule)
+    loadChildren: () => import('./users/login-page/login-page.module').then( m => m.LoginPagePageModule)
   },
   {
     path: 'register',
-    loadChildren: () => import('./pages/register-page/register-page.module').then( m => m.RegisterPagePageModule),
+    loadChildren: () => import('./users/register-page/register-page.module').then( m => m.RegisterPagePageModule),
   },
   {
     path: 'add-task',

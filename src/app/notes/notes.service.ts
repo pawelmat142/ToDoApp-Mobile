@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable} from 'rxjs';
-import { UserService } from '../services/user.service';
-import { Storage } from '@ionic/storage-angular';
+import { Injectable } from '@angular/core'
+import { BehaviorSubject, Observable} from 'rxjs'
+import { UserService } from 'src/app/users/user.service'
+import { Storage } from '@ionic/storage-angular'
 import { environment } from '../../environments/environment'
-import { Note } from './note-model';
-import { dataRespone } from '../models/dataResponse';
-import { IdService } from '../services/id.service';
-import { isDevMode } from '@angular/core';
+import { Note } from './note-model'
+import { dataRespone } from '../models/dataResponse'
+import { IdService } from '../services/id.service'
+
+import { isDevMode } from '@angular/core'
 const dev = isDevMode() ? true : false
 
 

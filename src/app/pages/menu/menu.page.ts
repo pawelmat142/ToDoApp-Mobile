@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { taskFilter, TasksService } from 'src/app/tasks/tasks.service';
-import { UserService } from 'src/app/services/user.service';
-import { UsersService } from 'src/app/services/users.service';
-import { NotesService } from 'src/app/notes/notes.service';
+import { Component, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
+import { taskFilter, TasksService } from 'src/app/tasks/tasks.service'
+import { UserService } from 'src/app/users/user.service'
+import { UsersService } from 'src/app/users/users.service'
+import { NotesService } from 'src/app/notes/notes.service'
 
 
 import { isDevMode } from '@angular/core'

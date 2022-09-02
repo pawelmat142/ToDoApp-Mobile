@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { IonReorderGroup, ItemReorderEventDetail, ToastController } from '@ionic/angular';
-import { Task } from 'src/app/tasks/task-model';
-import { taskFilter, TasksService } from 'src/app/tasks/tasks.service';
+import { Component, ViewChild } from '@angular/core'
+import { IonReorderGroup, ItemReorderEventDetail, ToastController } from '@ionic/angular'
+import { Task } from 'src/app/tasks/task-model'
+import { taskFilter, TasksService } from 'src/app/tasks/tasks.service'
 import { Subscription } from 'rxjs'
-import { filter } from 'rxjs/operators'
 
 import { isDevMode } from '@angular/core'
 const dev = isDevMode() ? true : false

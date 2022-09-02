@@ -1,10 +1,5 @@
-import { AfterViewInit, Component, OnChanges, SimpleChanges } from '@angular/core';
-import { UserService } from './services/user.service';
-import * as Cordovasqlitedriver from 'localforage-cordovasqlitedriver';
-import { Storage } from '@ionic/storage-angular';
-import { Router } from '@angular/router';
-import { AppService } from './services/app.service';
-
+import { Component } from '@angular/core'
+import { AppService } from './services/app.service'
 
 @Component({
   selector: 'app-root',

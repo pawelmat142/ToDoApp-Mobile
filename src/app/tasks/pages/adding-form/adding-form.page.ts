@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Subtask } from 'src/app/tasks/task-model';
-import { Task } from 'src/app/tasks/task-model';
-import { IdService } from 'src/app/services/id.service';
-import { TasksService } from 'src/app/tasks/tasks.service';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
+import { Subtask } from 'src/app/tasks/task-model'
+import { Task } from 'src/app/tasks/task-model'
+import { IdService } from 'src/app/services/id.service'
+import { TasksService } from 'src/app/tasks/tasks.service'
 
 @Component({
   selector: 'app-adding-form',

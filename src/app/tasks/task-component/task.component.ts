@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { IonAccordionGroup, ToastController } from '@ionic/angular';
-import { Task, Subtask } from 'src/app/tasks/task-model';
-import { TasksService } from 'src/app/tasks/tasks.service';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { Router } from '@angular/router'
+import { IonAccordionGroup, ToastController } from '@ionic/angular'
+import { Task, Subtask } from 'src/app/tasks/task-model'
+import { TasksService } from 'src/app/tasks/tasks.service'
 import { isDevMode } from '@angular/core'
 const dev = isDevMode() ? true : false
 
