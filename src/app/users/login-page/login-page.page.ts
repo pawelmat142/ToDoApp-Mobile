@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { dataRespone } from 'src/app/models/dataResponse'
-import { Credentials, nUser } from 'src/app/models/user'
+import { Credentials, nUser } from 'src/app/users/user'
 import { UserService } from 'src/app/users/user.service'
 import { UsersService } from 'src/app/users/users.service'
 import { HttpClient } from '@angular/common/http'

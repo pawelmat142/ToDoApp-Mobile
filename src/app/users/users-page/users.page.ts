@@ -1,10 +1,10 @@
 import { Component } from '@angular/core'
-import { nUser } from 'src/app/models/user'
 import { Router } from '@angular/router'
 import { UserService } from 'src/app/users/user.service'
 import { UsersService } from 'src/app/users/users.service'
 import { dataRespone } from 'src/app/models/dataResponse'
 import { Subscription } from 'rxjs'
+import { nUser } from '../user'
 
 import { isDevMode } from '@angular/core'
 const dev = isDevMode() ? true : false

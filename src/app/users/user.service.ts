@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core'
-import { nUser } from '../models/user'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { Storage } from '@ionic/storage-angular'
 import { environment } from '../../environments/environment'
 import { dataRespone } from '../models/dataResponse'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { UsersService } from './users.service'
-
+import { nUser } from './user'
+import { Router } from '@angular/router'
 
 import { isDevMode } from '@angular/core'
-import { Router } from '@angular/router';
 const dev = isDevMode() ? true : false
 
 

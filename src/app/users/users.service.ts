@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable } from 'rxjs/'
 import { Storage } from '@ionic/storage-angular'
 import { environment } from '../../environments/environment'
-import { nUser } from '../models/user'
 import { dataRespone } from '../models/dataResponse'
 import { Router } from '@angular/router'
 
 import { isDevMode } from '@angular/core'
+import { nUser } from './user'
 const dev = isDevMode() ? true : false
 
 // LISTA USEROW ZALADOWANYCH DO URZADZENIA
