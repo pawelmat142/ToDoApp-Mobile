@@ -1,10 +1,10 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Subtask, Task, TaskOnline } from './task-model';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http'
+import { Injectable } from '@angular/core'
+import { Subtask, Task, TaskOnline } from './task-model'
 import { environment } from '../../environments/environment'
+import { UserService } from 'src/app/users/user.service'
 
-import { isDevMode } from '@angular/core';
-import { UserService } from '../services/user.service';
+import { isDevMode } from '@angular/core'
 const dev = isDevMode() ? true : false
 
 @Injectable({
@@ -17,8 +17,7 @@ export class TasksOnlineService {
   constructor(
     private http: HttpClient,
     private userService: UserService
-  ) {
-  }
+  ) {}
 
   private get headers(): HttpHeaders {
     return this.userService.getHeaders()

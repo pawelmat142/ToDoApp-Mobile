@@ -1,12 +1,12 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { dataRespone } from 'src/app/models/dataResponse';
-import { UsersService } from 'src/app/services/users.service';
-import { CustomValidators } from '../../providers/validators';
+import { HttpClient } from '@angular/common/http'
+import { Component, ElementRef, ViewChild } from '@angular/core'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
+import { dataRespone } from 'src/app/models/dataResponse'
+import { UsersService } from 'src/app/users/users.service'
+import { CustomValidators } from '../../providers/validators'
 import { environment } from '../../../environments/environment'
-import { IdService } from 'src/app/services/id.service';
+import { IdService } from 'src/app/services/id.service'
 
 
 @Component({

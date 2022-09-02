@@ -1,5 +1,6 @@
-import { AfterViewInit, Directive, ElementRef, HostListener, Input, Renderer2, ViewChildren } from '@angular/core';
-import { DomController, IonFab } from '@ionic/angular';
+import { AfterViewInit, Directive, ElementRef, HostListener, Renderer2 } from '@angular/core'
+import { DomController } from '@ionic/angular'
+
 import { isDevMode } from '@angular/core'
 const dev = isDevMode() ? true : false
 

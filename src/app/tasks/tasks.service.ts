@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Task } from "./task-model";
-import { Storage } from '@ionic/storage-angular';
-import { UserService } from '../services/user.service';
+import { Injectable } from '@angular/core'
+import { BehaviorSubject, Observable } from 'rxjs'
+import { map } from 'rxjs/operators'
+import { Task } from "./task-model"
+import { Storage } from '@ionic/storage-angular'
+import { UserService } from '../users/user.service'
 import { environment } from '../../environments/environment'
-import { TasksOnlineService } from './tasks-online.service';
+import { TasksOnlineService } from './tasks-online.service'
 
 import { isDevMode } from '@angular/core'
 const dev = isDevMode() ? true : false

@@ -3,11 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './providers/authGuard';
 
 const routes: Routes = [
-  {
-    path: '',
-    loadChildren: () => import('./pages/start/start.module').then( m => m.StartPageModule)
-    // loadChildren: () => import('./pages/users-page/users.module').then( m => m.UsersPageModule)
-  },
+  { path: '', pathMatch: 'full', redirectTo: 'users' },
   {
     path: 'start',
     loadChildren: () => import('./pages/start/start.module').then( m => m.StartPageModule)

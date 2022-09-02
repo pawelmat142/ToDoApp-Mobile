@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { nUser } from '../models/user';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Storage } from '@ionic/storage-angular';
+import { Injectable } from '@angular/core'
+import { nUser } from '../models/user'
+import { BehaviorSubject, Observable } from 'rxjs'
+import { Storage } from '@ionic/storage-angular'
 import { environment } from '../../environments/environment'
-import { UsersService } from './users.service';
-import { dataRespone } from '../models/dataResponse';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { dataRespone } from '../models/dataResponse'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { UsersService } from './users.service'
 
 
 import { isDevMode } from '@angular/core'
@@ -13,12 +13,13 @@ import { Router } from '@angular/router';
 const dev = isDevMode() ? true : false
 
 
+// PRZECHOWUJE OBECNIE ZALOGOWANEGO USERA
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  // stores current logged user
   private userObs = new BehaviorSubject<nUser>(null)
   private userSnapshot: nUser = null
 
@@ -48,6 +49,7 @@ export class UserService {
   }
 
 
+
   // STORAGE STAFF
 
   public get user(): nUser {
@@ -68,13 +70,13 @@ export class UserService {
 
     const currentUser = this.usersService.getUserById(currentUserId)
     if (!currentUser) return false
+    
+    this.userObs.next(currentUser)
 
     if (currentUser.online) {
       const loginResult = await this.loginIfUserIsOnline()
       if (!loginResult) return false
     } 
-
-    this.userObs.next(currentUser)
     return true
   }
 
@@ -147,15 +149,14 @@ export class UserService {
 
 
   private async loginCurrentUserOrSetOfflineMode(): Promise<void> {
-    if (dev) console.log('loginCurrentUserOrSetOfflineMode')
     let success = await this.loginCurrentUser()
     if (!success) {
       this.offlineMode = await this.alertLoginFailScenario()
       if (!this.offlineMode) await this.loginCurrentUserOrSetOfflineMode()
     }
   }
-
   
+
   private loginCurrentUser = () => new Promise<boolean>((resolve) => {
     this.http.post<any>(this.url + '/login', {
       nickname: this.userSnapshot.nickname,
@@ -191,6 +192,7 @@ export class UserService {
   })
 
 
+
   // TOKEN
 
   public async setToken(token: string) {
@@ -206,7 +208,4 @@ export class UserService {
     this.isTokenSet = false
     await this.storage.set(environment.currentUserToken, '')
   }
-
-  // OTHERS
-
 }

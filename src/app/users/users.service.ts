@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs/';
-import { Storage } from '@ionic/storage-angular';
+import { Injectable } from '@angular/core'
+import { BehaviorSubject, Observable } from 'rxjs/'
+import { Storage } from '@ionic/storage-angular'
 import { environment } from '../../environments/environment'
-import { nUser } from '../models/user';
-import { dataRespone } from '../models/dataResponse';
-import { Router } from '@angular/router';
-
+import { nUser } from '../models/user'
+import { dataRespone } from '../models/dataResponse'
+import { Router } from '@angular/router'
 
 import { isDevMode } from '@angular/core'
 const dev = isDevMode() ? true : false
 
+// LISTA USEROW ZALADOWANYCH DO URZADZENIA
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  // stores list of users loaded to device
   private usersObs = new BehaviorSubject<nUser[]>([])
   private usersSnapshot: nUser[] = []
   

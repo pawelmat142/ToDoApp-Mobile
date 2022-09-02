@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewChildren } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Task } from 'src/app/tasks/task-model';
-import { TasksService } from 'src/app/tasks/tasks.service';
-import { Subtask } from 'src/app/tasks/task-model';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewChildren } from '@angular/core'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
+import { Task } from 'src/app/tasks/task-model'
+import { TasksService } from 'src/app/tasks/tasks.service'
+import { Subtask } from 'src/app/tasks/task-model'
 
 @Component({
   selector: 'app-editing-form',
