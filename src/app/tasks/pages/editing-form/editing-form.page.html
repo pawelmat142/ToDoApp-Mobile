@@ -88,10 +88,10 @@
       
       <ion-buttons slot="end">
         <ion-icon 
-        name="close-circle-outline" 
-        size="large"
-        [color]="this.f[subtask]?.invalid && this.f[subtask].touched?'danger':'secondary'"
-        (click)="$event.preventDefault();removeSubtask(subtask)"
+          name="close-circle-outline" 
+          size="large"
+          [color]="this.f[subtask]?.invalid && this.f[subtask].touched?'danger':'secondary'"
+          (click)="$event.preventDefault();removeSubtask(subtask)"
         ></ion-icon>
       </ion-buttons>
       
