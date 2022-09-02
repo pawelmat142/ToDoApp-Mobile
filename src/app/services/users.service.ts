@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs/';
 import { Storage } from '@ionic/storage-angular';
 import { environment } from '../../environments/environment'
-import { Credentials, nUser } from '../models/user';
+import { nUser } from '../models/user';
 import { dataRespone } from '../models/dataResponse';
 import { Router } from '@angular/router';
-import { UsersOnlineService } from './users-online.service';
-import { IdService } from './id.service';
-import jwt_decode from 'jwt-decode';
+
+
 import { isDevMode } from '@angular/core'
 const dev = isDevMode() ? true : false
 

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Task } from "./task-model";
 import { Storage } from '@ionic/storage-angular';
-import { dataRespone } from '../models/dataResponse';
 import { UserService } from '../services/user.service';
 import { environment } from '../../environments/environment'
 import { TasksOnlineService } from './tasks-online.service';
@@ -240,7 +239,7 @@ export class TasksService {
       return true
     }
     catch (error) {
-      console.log(error)
+      if (dev) console.log(error)
       return false
     }
   }
@@ -265,13 +264,12 @@ export class TasksService {
       return true
     }
     catch (error) {
-      console.log(error)
+      if (dev) console.log(error)
       return false
     }
   }
 
 
-    
 
   // INITIALIZATION
 
@@ -292,7 +290,6 @@ export class TasksService {
       if (dev) console.log(error)
     }
   }
-
 
 
 
@@ -345,17 +342,8 @@ export class TasksService {
 
   private async loadTasksOnline() {
     if (this.onlineMode) {
-      console.log('TODO:')
       if (dev) console.log('loadTasksOnline')
-
       const onlineTasks = await this.tasksOnline.getTasks()
-      if (dev) {
-        console.log('onlineTasks: ')
-        console.log(onlineTasks)
-        console.log('offlineTasks: ')
-        console.log(this.tasksSnapshot)
-
-      }
       if (!onlineTasks) throw new Error('Obsluzyc get online tasks fail')
       this.resolveTasksConflicts(onlineTasks)
     }
