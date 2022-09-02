@@ -1,9 +1,6 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { dataRespone } from '../models/dataResponse';
-import { UsersOnlineService } from '../services/users-online.service';
 import { Subtask, Task, TaskOnline } from './task-model';
-import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment'
 
 import { isDevMode } from '@angular/core';
@@ -32,9 +29,7 @@ export class TasksOnlineService {
     this.http.get<TaskOnline[]>(this.url + '/tasks', {
       headers: this.headers
     }).subscribe(
-      (tasks: TaskOnline[]) => {
-        resolve(tasks.map(t => this.taskOnlineToTask(t)))
-      },
+      (tasks: TaskOnline[]) => resolve(tasks.map(t => this.taskOnlineToTask(t))),
       (error) => resolve(null)
     )
   })
@@ -60,8 +55,6 @@ export class TasksOnlineService {
   editTask = (newTask: Task) => new Promise<boolean>((resolve) => {
     let task: TaskOnline = this.taskToTaskOnline(newTask)
 
-    console.log(newTask)
-
     const params = new HttpParams().set('_id', task.id)
     this.http.put<void>(this.url + '/task', task, {
       params: params,
@@ -75,6 +68,7 @@ export class TasksOnlineService {
 
   removeTask = (taskId: string) => new Promise<boolean>(resolve => {
     const params = new HttpParams().set('_id', taskId)
+
     this.http.delete<void>(this.url + '/delete', {
       params: params,
       headers: this.headers
@@ -124,7 +118,6 @@ export class TasksOnlineService {
   })
   
   reorder = (tasks: Task[]) => new Promise<boolean>(resolve => {
-
     const tasksOnline = tasks.map(task => this.taskToTaskOnline(task))
     const body = { tasks: tasksOnline }
 
@@ -133,7 +126,6 @@ export class TasksOnlineService {
     }).subscribe(
       () => resolve(true),
       error => resolve(false)
-      
     )
   })
 
@@ -156,11 +148,6 @@ export class TasksOnlineService {
       error => resolve(false)
     )
   })
-
-
-
-
-
 
 
 
