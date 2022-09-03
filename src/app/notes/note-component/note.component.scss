@@ -1,5 +1,5 @@
 ion-accordion-group {
-    margin-top: .7em;
+    margin-top: 7px;
     background: var(--color-bg-main);
     box-shadow: var(--color-bg-main) 1.95px 1.95px 2.6px;
     border-radius: 0.4em;
@@ -13,21 +13,19 @@ ion-accordion-group {
         color: var(--ion-color-light);
         
         header {
-            padding: .5em 0;
             position: relative;
             overflow: hidden;
             display: grid;
-            grid-template-columns: 4fr minmax(0, 2fr);
+            grid-template-columns: 10fr minmax(0, 2fr);
             align-items: center;
             width: 100%;
             border-radius: 0.4em;
     
             .name {
-                padding-left: 1.2em;
+                padding: .9em 0;
+                padding-left: .8em;
                 width: 100%;
                 text-align: start;
-                // line-height: 4em;
-                min-height: 3em;
                 display: flex;
                 align-items: center;
             }
@@ -39,7 +37,7 @@ ion-accordion-group {
                 padding-right: 1.2em;
                 padding-left: 1.2em;
                 font-size: .9em;
-                text-align: center;
+                text-align: end;
                 margin-top: .3em;
                 margin-bottom: .3em;
             }

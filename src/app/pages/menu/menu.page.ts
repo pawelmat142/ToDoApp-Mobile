@@ -29,6 +29,14 @@ export class MenuPage implements OnInit {
 
   // account
 
+  get offlineMode(): boolean {
+    return this.userService.offlineMode
+  }
+
+  toggleOfflineMode(): void {
+    this.userService.offlineMode = !this.userService.offlineMode
+  }
+
   async closeUser() {
     this.usersService.removeUserToken(this.userService.id)
     await this.userService.resetCurrentUser()

@@ -25,6 +25,8 @@ export class UsersService {
   ) { 
     if (dev) console.log('usersService constructor')
 
+    this.router.navigateByUrl('/start', { replaceUrl: true})
+
     this.usersObs.subscribe(u => {
       this.usersSnapshot = u ? u : []
       if (dev) console.log('users subscibing: ' + this.usersSnapshot.length)

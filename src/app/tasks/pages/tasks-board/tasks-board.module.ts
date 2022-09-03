@@ -17,6 +17,7 @@ import { HideScrollButtonDirective } from "src/app/directives/hide-scroll-button
 import { SwipePageDirective } from 'src/app/directives/swipe-page.directive';
 import { MarkDoneDirective } from 'src/app/directives/mark-done.directive';
 import { ReorderToggleDirective } from 'src/app/directives/reorder-toggle.directive';
+import { MarkSubtaskDoneDirective } from 'src/app/directives/mark-subtask-done.directive';
 registerLocaleData(localePl);
 
 
@@ -35,7 +36,8 @@ registerLocaleData(localePl);
     HideScrollButtonDirective,
     SwipePageDirective,
     MarkDoneDirective,
-    ReorderToggleDirective
+    ReorderToggleDirective,
+    MarkSubtaskDoneDirective
   ],
 })
 export class TasksBoardPageModule { }

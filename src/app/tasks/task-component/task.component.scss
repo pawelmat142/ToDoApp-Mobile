@@ -13,7 +13,6 @@ ion-accordion-group {
         color: var(--ion-color-light);
         
         header {
-            // padding: 1em 0;
             position: relative;
             overflow: hidden;
             display: grid;
@@ -98,7 +97,7 @@ ion-accordion-group {
                 }
     
                 ion-icon {
-                    padding-top: .2em;
+                    padding-top: .1em;
                     width: 8%;
                 }
     

@@ -17,9 +17,9 @@
       <ion-title color="secondary">Konto</ion-title>
     </ion-list-header>
 
-    <ion-item button class="tile" lines="none" routerLink="/users">
-      <ion-icon name="apps" slot="start" size="large" color="secondary"></ion-icon>
-      <ion-title color="light">Konta</ion-title>
+    <ion-item button class="tile" lines="none" routerLink="/start">
+      <ion-icon name="home" slot="start" size="large" color="success"></ion-icon>
+      <ion-title color="light">Start</ion-title>
     </ion-item>
 
     <ion-item button class="tile" lines="none" routerLink="/manual">
@@ -27,9 +27,9 @@
       <ion-title color="light">Instrukcja</ion-title>
     </ion-item>
     
-    <ion-item button class="tile" lines="none" routerLink="/start">
-      <ion-icon name="home" slot="start" size="large" color="primary"></ion-icon>
-      <ion-title color="light">Home</ion-title>
+    <ion-item button class="tile" lines="none" routerLink="/users">
+      <ion-icon name="people" slot="start" size="large" color="tertiary"></ion-icon>
+      <ion-title color="light">Użytkownicy</ion-title>
     </ion-item>
 
     <ion-item button class="tile" lines="none" (click)="closeUser()">
@@ -37,10 +37,14 @@
       <ion-title color="light">Wyloguj</ion-title>
     </ion-item>
 
-
     <ion-item button class="tile" lines="none" (click)="deleteAccount()">
       <ion-icon name="person-remove" slot="start" size="large" color="danger"></ion-icon>
       <ion-title color="light">Usuń konto</ion-title>
+    </ion-item>
+
+    <ion-item button class="tile" lines="none" (click)="toggleOfflineMode()">
+      <ion-icon [name]="offlineMode ? 'flash' : 'flash-off'" slot="start" size="large" [color]="!offlineMode ? 'primary' : 'success'"></ion-icon>
+      <ion-title color="light">Włącz tryb {{offlineMode ? 'online' : 'offline'}}</ion-title>
     </ion-item>
 
 
@@ -50,7 +54,7 @@
     </ion-list-header>
     
     <ion-item button class="tile" lines="none" (click)="setTasksFilter('all')">
-      <ion-icon name="checkmark-done-circle" slot="start" size="large" color="tertiary"></ion-icon>
+      <ion-icon name="checkmark-done-circle" slot="start" size="large" color="secondary"></ion-icon>
       <ion-title color="light">Wszystkie</ion-title>
     </ion-item>
     

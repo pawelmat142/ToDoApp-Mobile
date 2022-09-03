@@ -1,0 +1,19 @@
+ion-title {
+    text-align: center;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10vh;
+
+    img {
+        width: 60vw;
+        margin-bottom: 5vh;
+    }
+
+    ion-button {
+        width: 95%;
+    }
+}

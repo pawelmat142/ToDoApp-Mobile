@@ -12,9 +12,10 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { Drivers } from '@ionic/storage';
 import * as Cordovasqlitedriver from 'localforage-cordovasqlitedriver';
 import { LimitToPipeModule } from './pipes/limit-to.pipe';
+import { LastPipe } from './pipes/last.pipe';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, LastPipe],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
         const result = !!this.userService.user
         if (!result) {
             if (dev) console.log('not authenticated!')
-            this.router.navigateByUrl('/users', { replaceUrl: true })
+            this.router.navigateByUrl('/start', { replaceUrl: true })
         }
         return result
     }

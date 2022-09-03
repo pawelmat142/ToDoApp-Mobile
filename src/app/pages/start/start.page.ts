@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/users/user.service';
 
 @Component({
   selector: 'app-start',
@@ -7,8 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StartPage implements OnInit {
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
+  }
+  
+  get logged(): boolean {
+    return !!this.userService.user
   }
 }

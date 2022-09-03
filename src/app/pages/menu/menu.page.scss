@@ -1,10 +1,20 @@
 ion-list {
     background: transparent;
+    padding-top: 0;
     
     ion-item {
         --background: var(--color-bg-main);
         background: var(--color-bg-main);
-        margin-bottom: .2em;
+        margin-bottom: .3em;
         border-radius: .4em;
+
+        ion-icon {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
     }
+}
+
+ion-content {
+    --padding-top: 0px;
 }

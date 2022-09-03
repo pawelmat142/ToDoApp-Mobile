@@ -11,6 +11,7 @@ import { NoteComponent } from 'src/app/notes/note-component/note.component';
 import { HideScrollButtonDirective } from 'src/app/directives/hide-scroll-button';
 import { SwipePageDirective } from 'src/app/directives/swipe-page.directive';
 import { ReorderToggleDirective } from 'src/app/directives/reorder-toggle.directive';
+import { LastPipe } from 'src/app/pipes/last.pipe';
 
 @NgModule({
   imports: [
@@ -24,6 +25,8 @@ import { ReorderToggleDirective } from 'src/app/directives/reorder-toggle.direct
     NoteComponent,
     HideScrollButtonDirective,
     SwipePageDirective,
-    ReorderToggleDirective]
+    ReorderToggleDirective,
+    LastPipe
+  ]
 })
 export class NotesBoardPageModule {}

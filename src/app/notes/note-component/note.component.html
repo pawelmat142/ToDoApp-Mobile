@@ -50,12 +50,12 @@
 
         <div class="date">
           <ion-text color="secondary">Utworzono: </ion-text>
-          <ion-text color="light">{{note.created | date}}</ion-text>
+          <ion-text color="light">{{(note.created | date: 'd MMM':'':'pl') + ' - ' + (note.created | date: 'H:mm':'':'pl')}}</ion-text>
         </div>
 
-        <div class="date" *ngIf="note.modified">
+        <div class="date" *ngIf="note.modified?.length">
           <ion-text color="secondary">Zmieniono: </ion-text>
-          <ion-text color="light">{{note.created | date}}</ion-text>
+          <ion-text color="light">{{(note.modified | last | date: 'd MMM':'':'pl') + ' - ' + (note.modified | last | date: 'H:mm':'':'pl')}}</ion-text>
         </div>
 
       </div>

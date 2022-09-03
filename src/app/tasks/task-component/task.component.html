@@ -28,8 +28,9 @@
 
                 <ion-button fill="clear" lines="none" *ngFor="let subtask of subtasks; index as index" class="subtask"
                     [color]="subtask.done?'success':'primary'"
-                    (touchend)="markSubtaskAsDone(index); $event.preventDefault(); $event.stopPropagation();"
-                    (touchstart)="$event.preventDefault(); $event.stopPropagation();">
+                    appMarkSubtaskDone [taskId]="task.id" [subtaskIndex]="index"
+                    
+                >
                     <div>
                         <ion-icon [name]="subtask.done?'checkmark-circle':'close-circle'" size="small"></ion-icon>
                         <span>{{subtask.name}}</span>
@@ -40,7 +41,7 @@
 
             <div class="deadline">
                 <ion-text color="secondary" class="bolder padding-right">Termin: </ion-text>
-                {{task.deadline? (task.deadline | date: 'd MMM':'':'pl') + ' - ' + (task.deadline | date: 'h:mm':'':'') :'brak'}}
+                {{task.deadline? (task.deadline | date: 'd MMM':'':'pl') + ' - ' + (task.deadline | date: 'H:mm':'':'') :'brak'}}
             </div>
 
             <!-- BUTTONS -->

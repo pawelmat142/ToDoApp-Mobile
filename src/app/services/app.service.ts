@@ -50,10 +50,7 @@ export class AppService {
     if (this.userService.user) {
       if (dev) console.log(`user ${this.userService.user.nickname} loaded, redirect to tasks board`)
       this.router.navigateByUrl('/tasks', { replaceUrl: true })
-    } else {
-      if (dev) console.log(`no user logged, redirect to users page`)
-      this.router.navigateByUrl('/users', { replaceUrl: true })
-    }
+    } 
   }
 
 
