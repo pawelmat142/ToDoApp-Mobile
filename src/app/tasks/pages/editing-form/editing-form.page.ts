@@ -42,7 +42,7 @@ export class EditingFormPage implements OnInit, OnDestroy {
     })
 
     if (this.task.deadline) { 
-      const deadline = new FormControl(this.task.deadline)
+      const deadline = new FormControl<Date>(this.task.deadline)
       this.addingForm.addControl('deadline', deadline)
     }
 
@@ -141,10 +141,10 @@ export class EditingFormPage implements OnInit, OnDestroy {
 
   onDeadlineChange(event: CustomEvent): void {
     if (!this.f.deadline) { 
-      this.addingForm.addControl('deadline', new FormControl<string>(''))
+      this.addingForm.addControl('deadline', new FormControl<Date>(null))
     }
     const deadline = new Date(event.detail.value)
-    this.addingForm.controls.deadline.setValue(this.getDeadline(deadline))
+    this.addingForm.controls.deadline.setValue(deadline)
 
     this.accordionRef.value = ""
     
@@ -153,20 +153,11 @@ export class EditingFormPage implements OnInit, OnDestroy {
   }
 
   onDeadlineCanel() {
-    this.addingForm.controls.deadline.setValue('')
+    this.addingForm.controls.deadline.setValue(null)
     
     this.accordionRef.value = ""
     
     const datetime = document.querySelector('ion-datetime')
     datetime.reset()
   }
-
-  private getDeadline(date: Date): string {
-    let month = date.getMonth().toString()
-    if (month.length < 2) {
-      month = `0${month}`
-    }
-    return `${date.getDay()}.${month} - ${date.getHours()}:${date.getMinutes()}` 
-  }
-
 }

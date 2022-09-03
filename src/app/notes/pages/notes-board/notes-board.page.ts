@@ -75,4 +75,11 @@ export class NotesBoardPage {
     event.detail.complete()
   }
 
+
+  async doRefresh(event) {
+    await this.notesService.loadData()
+    event.target.complete()
+    if (dev) console.log('REFRESHED NOTES')
+  }
+
 }

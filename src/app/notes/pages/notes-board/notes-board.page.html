@@ -1,5 +1,6 @@
 <ion-header class="header-pink">
   <ion-toolbar>
+    <img slot="start" alt="Silhouette of a person's head" src="assets/icon/icon-white.svg" />
     <ion-title color="light">Notatki</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/menu" color="light">
@@ -10,6 +11,10 @@
 </ion-header>
 
 <ion-content appHideScrollButton scrollEvents="true" appSwipePage>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <ion-reorder-group *ngIf="notes && notes.length" #reorderRef disabled="true" (ionItemReorder)="doReorder($event)">
     <ion-reorder *ngFor="let note of notes; index as index" class="tile-container">

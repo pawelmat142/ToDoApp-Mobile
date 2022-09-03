@@ -297,11 +297,10 @@ export class TasksService {
 
   public async loadTasks(): Promise<void> {
     if (!this.initialized) this.initTasksService()
-    else if (this.cleared) {
+    else {
       if (dev) console.log('LOAD TASKS AGAIN')
       await this.loadTasksFromStorage()
       await this.loadTasksOnline()
-      this.cleared = false
     }
   }
 

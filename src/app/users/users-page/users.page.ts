@@ -66,4 +66,11 @@ export class UsersPage {
     }, 5000)
   }
 
+
+  async doRefresh(event) {
+    await this.usersService.initUsers()
+    event.target.complete()
+    if (dev) console.log('REFRESHED USERS')
+  }
+
 }

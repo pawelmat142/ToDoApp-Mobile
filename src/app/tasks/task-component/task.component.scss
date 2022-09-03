@@ -13,39 +13,48 @@ ion-accordion-group {
         color: var(--ion-color-light);
         
         header {
-            padding: .3em 0;
+            // padding: 1em 0;
             position: relative;
             overflow: hidden;
             display: grid;
-            grid-template-columns: 8fr 1fr minmax(0, 2fr);
+            grid-template-columns: 10fr 1fr minmax(0, 2fr);
             align-items: center;
             width: 100%;
             border-radius: 0.4em;
     
             .name {
+                padding: .6em 0;
                 padding-left: .8em;
                 width: 100%;
                 text-align: start;
-                min-height: 3em;
                 display: flex;
                 align-items: center;
             }
     
             .deadline {
                 text-align: center;
+                font-size: .8em;
             }
 
             ion-list-header {
                 min-height: unset;
+            }
+
+            ion-button {
+                --padding-start: 0;
+                --padding-end: 0;
             }
         }
 
         &.accordion-expanding header,
         &.accordion-expanded header {
             grid-template-columns: 1fr;
+            // padding: .6em 0;
         }
     
         .accordion {
+            font-weight: 300;
+
             ion-tab-bar {
                 --background: transparent;
             }
@@ -53,6 +62,7 @@ ion-accordion-group {
             .deadline {
                 padding: 0em 1em .2em 0;
                 text-align: end;
+                font-size: .8em;
             }
     
             // SUBTASKS
@@ -72,8 +82,8 @@ ion-accordion-group {
                 text-transform: none;
                 margin: 0;
                 white-space: unset;
-                --padding-top: .3em;
-                --padding-bottom: .3em;
+                --padding-top: .5em;
+                --padding-bottom: .5em;
 
                 &.subtask {
                     height: unset;
@@ -94,7 +104,6 @@ ion-accordion-group {
     
                 span {
                     color: var(--ion-color-light);
-                    line-height: 1.3;
                     width: 100%;
                 }
             }

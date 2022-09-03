@@ -1,5 +1,6 @@
 <ion-header class="header-pink">
   <ion-toolbar>
+    <img slot="start" alt="Silhouette of a person's head" src="assets/icon/icon-white.svg" />
     <ion-title color="light">Dodaj zadanie</ion-title>
     <ion-buttons slot="secondary" color="light">
       <ion-back-button defaultHref="/tasks" size="large" color="light"></ion-back-button>
@@ -43,7 +44,9 @@
       <ion-accordion value="first" class="item-input">
 
         <ion-item slot="header" class="tile-bg">
-          <ion-label color="secondary">{{f.deadline?.value? ('Termin: '+f.deadline?.value): 'Temin'}}</ion-label>
+          <ion-label color="secondary">
+            {{f.deadline?.value ? 'Termin: ' + (f.deadline?.value | date: 'd MMM':'':'pl') + ' - ' + (f.deadline?.value | date: 'h:mm':'':'') :'Termin'}}
+          </ion-label>
         </ion-item>
 
         <div class="ion-padding content" slot="content">

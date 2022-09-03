@@ -80,15 +80,6 @@ export class TasksBoardPage {
     event.detail.complete()
   }
 
-  
-  
-  // OTHERS
-  
-  private task = (id: string) => this.tasks.find(task => task.id === id)
-  
-  emiter() {
-    console.log('emiter')
-  }
 
 
   // FILTER
@@ -112,7 +103,21 @@ export class TasksBoardPage {
       this.tasksService.setFilter('all')
     }
   }
-  
+
+
+    
+  // OTHERS
+
+  async doRefresh(event) {
+    await this.tasksService.loadTasks()
+    event.target.complete()
+    if (dev) console.log('REFRESHED TASKS')
+  }
+
+  emiter() {
+    console.log('emiter')
+  }
+
 }
 
 

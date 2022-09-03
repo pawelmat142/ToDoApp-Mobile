@@ -1,5 +1,6 @@
 <ion-header class="header-pink">
   <ion-toolbar>
+    <img slot="start" alt="Silhouette of a person's head" src="assets/icon/icon-white.svg" />
     <ion-title color="light">Lista Zadań</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/menu" color="light">
@@ -10,12 +11,16 @@
 </ion-header>
 
 <ion-content appHideScrollButton scrollEvents="true" appSwipePage>
-<!-- <ion-content> -->
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- <ion-content> -->
   <ion-item (click)="changeFilter()" class="filter" button lines="none">
-    <ion-label color="secondary" *ngIf="filter==='all'">Wszystkie</ion-label>
-    <ion-label color="secondary" *ngIf="filter==='todo'">Do zrobienia</ion-label>
-    <ion-label color="secondary" *ngIf="filter==='done'">Skończone</ion-label>
+    <ion-label color="secondary" class="bolder" *ngIf="filter==='all'">Wszystkie</ion-label>
+    <ion-label color="secondary" class="bolder" *ngIf="filter==='todo'">Do zrobienia</ion-label>
+    <ion-label color="secondary" class="bolder" *ngIf="filter==='done'">Skończone</ion-label>
   </ion-item>
 
   <ion-reorder-group *ngIf="tasks && tasks.length" #reorderRef disabled="true" (ionItemReorder)="doReorder($event)">
