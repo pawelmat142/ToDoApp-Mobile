@@ -17,6 +17,8 @@ export class EditingFormPage implements OnInit, OnDestroy {
   subtasks: string[] = []
   si: number
 
+  $subtasks: Subtask[] = []
+
   constructor(
     private tasksService: TasksService,
     public router: Router
@@ -47,11 +49,11 @@ export class EditingFormPage implements OnInit, OnDestroy {
     if (this.task.subtasks && this.task.subtasks.length) { 
       this.task.subtasks.forEach((subtask, i) => {
         const s = new FormControl<string>(subtask.name)
-        const name = `subtask-${i + 1}`
+        const name = `subtask-${i}`
         this.subtasks.push(name)
         this.addingForm.addControl(name, s)
       })
-      this.si = this.subtasks.length-1
+      this.si = this.subtasks.length
     }
   }
 
@@ -77,8 +79,6 @@ export class EditingFormPage implements OnInit, OnDestroy {
   }
 
   async onSubmit() {
-    console.log('on submit')
-
     if (this.addingForm.invalid) return
 
     const newTask: Task = {
@@ -127,14 +127,13 @@ export class EditingFormPage implements OnInit, OnDestroy {
     this.addingForm.addControl(name, formControl)
     formControl.setValue('')
     this.subtasks.push(name)
-    setTimeout(() => { 
-      this.subtaskInputReference.last.setFocus()
-    },200)
+    setTimeout(() => this.subtaskInputReference.last.setFocus(), 200)
   }
+
 
   removeSubtask(name: string): void {
     this.subtasks = this.subtasks.filter(s => s !== name)
-    this.addingForm.removeControl(name)
+    setTimeout(() => this.addingForm.removeControl(name), 0)
   }
 
 

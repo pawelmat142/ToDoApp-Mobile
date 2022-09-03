@@ -27,8 +27,8 @@
 
 
 * {
-    letter-spacing: .12em;
-    line-height: 1.5;
+    letter-spacing: .1em;
+    line-height: 1.3;
 }
 
 // HEADER
@@ -55,6 +55,7 @@ ion-content {
     --padding-start: .5em;
     --padding-end: .5em;
     --padding-bottom: 100px;
+    --offset-top: 50px;
 }
 
 
@@ -141,7 +142,7 @@ form {
 }
 
 .item-input {
-    margin-top: 15px;
+    margin-top: 7px;
     border-radius: 0.4em;
     box-shadow: #00000026 1.95px 1.95px 2.6px;
 

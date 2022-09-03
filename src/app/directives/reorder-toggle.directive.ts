@@ -20,6 +20,8 @@ export class ReorderToggleDirective {
   private yStart: number = 0
   private dx: number = 0
   private dy: number = 0
+
+  private timeout: any
   
 
   @HostListener('touchmove', ['$event']) onMove(event: TouchEvent) { 
@@ -35,7 +37,7 @@ export class ReorderToggleDirective {
 
   @HostListener('touchstart', ['$event']) onStart(event: TouchEvent) {
     this.touched = true
-    setTimeout(() => this.emit(event), TIMEOUT)
+    this.timeout = setTimeout(() => this.emit(event), TIMEOUT)
   }
 
   @HostListener('touchend', ['$event']) onEnd(event: TouchEvent) {
@@ -54,6 +56,7 @@ export class ReorderToggleDirective {
   }
 
   private reset() {
+    clearTimeout(this.timeout)
     this.touched = false
     this.xStart = 0
     this.yStart = 0

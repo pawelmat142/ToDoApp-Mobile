@@ -1,5 +1,5 @@
 ion-accordion-group {
-    margin-top: .7em;
+    margin-top: 7px;
     background: var(--color-bg-main);
     box-shadow: var(--color-bg-main) 1.95px 1.95px 2.6px;
     border-radius: 0.4em;
@@ -13,7 +13,7 @@ ion-accordion-group {
         color: var(--ion-color-light);
         
         header {
-            padding: .5em 0;
+            padding: .3em 0;
             position: relative;
             overflow: hidden;
             display: grid;
@@ -23,10 +23,9 @@ ion-accordion-group {
             border-radius: 0.4em;
     
             .name {
-                padding-left: 1.2em;
+                padding-left: .8em;
                 width: 100%;
                 text-align: start;
-                // line-height: 4em;
                 min-height: 3em;
                 display: flex;
                 align-items: center;
@@ -34,6 +33,10 @@ ion-accordion-group {
     
             .deadline {
                 text-align: center;
+            }
+
+            ion-list-header {
+                min-height: unset;
             }
         }
 
@@ -68,19 +71,24 @@ ion-accordion-group {
                 width: 100%;
                 text-transform: none;
                 margin: 0;
-                padding: 0 1em;
                 white-space: unset;
-                margin-bottom: .6em;
+                --padding-top: .3em;
+                --padding-bottom: .3em;
+
+                &.subtask {
+                    height: unset;
+                }
     
                 div {
                     width: 100%;
                     display: flex;
                     align-items: flex-start;
                     text-align: start;
-                    gap: 1em;
+                    gap: .3em;
                 }
     
                 ion-icon {
+                    padding-top: .2em;
                     width: 8%;
                 }
     
