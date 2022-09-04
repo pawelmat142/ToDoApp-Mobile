@@ -7,9 +7,8 @@ import { TasksBoardPage } from './tasks-board.page';
 import { TaskComponent } from 'src/app/tasks/task-component/task.component';
 import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
-import { LimitToPipeModule } from 'src/app/pipes/limit-to.pipe';
-import { DeadlinePipe } from 'src/app/pipes/deadline.pipe';
 import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
+import { SharedPipesModule } from 'src/app/pipes/shared-pipes.module';
 registerLocaleData(localePl);
 
 
@@ -19,13 +18,12 @@ registerLocaleData(localePl);
     FormsModule,
     IonicModule,
     TasksBoardPageRoutingModule,
-    LimitToPipeModule,
-    SharedDirectivesModule
+    SharedDirectivesModule,
+    SharedPipesModule
   ],
   declarations: [
     TasksBoardPage,
     TaskComponent,
-    DeadlinePipe,
   ],
 })
 export class TasksBoardPageModule { }

@@ -15,9 +15,3 @@ export class LimitToPipe implements PipeTransform {
   }
 
 }
-
-@NgModule({
-  declarations: [LimitToPipe],
-  exports: [LimitToPipe]
-})
-export class LimitToPipeModule {}
