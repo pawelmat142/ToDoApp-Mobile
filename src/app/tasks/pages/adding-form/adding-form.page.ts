@@ -22,9 +22,13 @@ export class AddingFormPage implements OnInit, AfterViewInit {
   ngOnInit() { }
   
   ngAfterViewInit() {
-    setTimeout(() => { 
-      this.taskInputRef.setFocus()
-    },200)
+    setTimeout(() => {
+      if (this.taskInputRef) {
+        this.taskInputRef.setFocus()
+      } else {
+        setTimeout(() =>this.taskInputRef.setFocus(), 300)
+      }
+    },300)
   }
   
   addingForm = new FormGroup<any>({

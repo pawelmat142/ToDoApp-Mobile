@@ -48,12 +48,21 @@ ion-accordion-group {
                 background: transparent;
                 --background: transparent;
             }
+            
+            ion-tab-bar {
+                border: 0;
+                border: 0;
+            }
 
             ion-item {
-                margin-bottom: 1em;
-                text-indent: 3em;
+                margin-bottom: .7em;
+                text-indent: 1.8em;
                 --border-color: var(--ion-color-secondary-two);
-                --inner-padding-bottom: 1em;
+                --inner-padding-bottom: .7em;
+
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
             }
         }
     

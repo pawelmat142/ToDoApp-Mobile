@@ -23,25 +23,25 @@
         <!-- buttons -->
         <ion-tab-bar>
             <ion-tab-button
-            (touchend)="removeNote();$event.preventDefault(); $event.stopPropagation();"
-            (touchstart)="$event.preventDefault(); $event.stopPropagation();"
-            >
-                <ion-icon name="trash" color="danger"></ion-icon>
-                <ion-label color="danger">Usuń</ion-label>
+              (touchend)="removeNote();$event.preventDefault(); $event.stopPropagation();"
+              (touchstart)="$event.preventDefault(); $event.stopPropagation();">
+
+              <ion-icon name="trash" color="danger"></ion-icon>
+              <ion-label color="danger">Usuń</ion-label>
             </ion-tab-button>
             
             <ion-tab-button
-            (touchend)="edit();$event.preventDefault(); $event.stopPropagation();"
-            (touchstart)="$event.preventDefault(); $event.stopPropagation();"
-            >
+              (touchend)="edit();$event.preventDefault(); $event.stopPropagation();"
+              (touchstart)="$event.preventDefault(); $event.stopPropagation();">
+
                 <ion-icon name="brush" color="secondary"></ion-icon>
                 <ion-label color="secondary">Edytuj</ion-label>
             </ion-tab-button>
 
             <ion-tab-button
-            (touchend)="important();$event.preventDefault(); $event.stopPropagation();"
-            (touchstart)="$event.preventDefault(); $event.stopPropagation();"
-            >
+              (touchend)="important();$event.preventDefault(); $event.stopPropagation();"
+              (touchstart)="$event.preventDefault(); $event.stopPropagation();">
+              
                 <ion-icon name="information-circle" color="warning"></ion-icon>
                 <ion-label color="warning">Ważne</ion-label>
             </ion-tab-button>
