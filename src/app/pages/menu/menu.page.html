@@ -12,9 +12,9 @@
 
   <ion-list>
 
-    <!-- account -->
+    <!-- app -->
     <ion-list-header lines="none">
-      <ion-title color="secondary">Konto</ion-title>
+      <ion-title color="secondary">Aplikacja</ion-title>
     </ion-list-header>
 
     <ion-item button class="tile" lines="none" routerLink="/start">
@@ -26,25 +26,15 @@
       <ion-icon name="apps" slot="start" size="large" color="secondary"></ion-icon>
       <ion-title color="light">Instrukcja</ion-title>
     </ion-item>
-    
-    <ion-item button class="tile" lines="none" routerLink="/users">
-      <ion-icon name="people" slot="start" size="large" color="tertiary"></ion-icon>
-      <ion-title color="light">Użytkownicy</ion-title>
-    </ion-item>
-
-    <ion-item button class="tile" lines="none" (click)="closeUser()">
-      <ion-icon name="log-out" slot="start" size="large" color="warning"></ion-icon>
-      <ion-title color="light">Wyloguj</ion-title>
-    </ion-item>
-
-    <ion-item button class="tile" lines="none" (click)="deleteAccount()">
-      <ion-icon name="person-remove" slot="start" size="large" color="danger"></ion-icon>
-      <ion-title color="light">Usuń konto</ion-title>
-    </ion-item>
 
     <ion-item button class="tile" lines="none" (click)="toggleOfflineMode()">
       <ion-icon [name]="offlineMode ? 'flash' : 'flash-off'" slot="start" size="large" [color]="!offlineMode ? 'primary' : 'success'"></ion-icon>
       <ion-title color="light">Włącz tryb {{offlineMode ? 'online' : 'offline'}}</ion-title>
+    </ion-item>
+    
+    <ion-item button class="tile" lines="none" (click)="exitApp()">
+      <ion-icon name="power" slot="start" size="large" color="danger"></ion-icon>
+      <ion-title color="light">Zamknij</ion-title>
     </ion-item>
 
 
@@ -87,6 +77,28 @@
     <ion-item button class="tile" lines="none" routerLink="/notes">
       <ion-icon name="reader" slot="start" size="large" color="primary"></ion-icon>
       <ion-title color="light">Notatki</ion-title>
+    </ion-item>
+
+    
+    <!-- account -->
+    <ion-list-header lines="none">
+      <ion-title color="secondary">Konto</ion-title>
+    </ion-list-header>
+
+    
+    <ion-item button class="tile" lines="none" routerLink="/users">
+      <ion-icon name="people" slot="start" size="large" color="tertiary"></ion-icon>
+      <ion-title color="light">Użytkownicy</ion-title>
+    </ion-item>
+
+    <ion-item button class="tile" lines="none" (click)="closeUser()">
+      <ion-icon name="log-out" slot="start" size="large" color="warning"></ion-icon>
+      <ion-title color="light">Wyloguj</ion-title>
+    </ion-item>
+
+    <ion-item button class="tile" lines="none" (click)="deleteAccount()">
+      <ion-icon name="person-remove" slot="start" size="large" color="danger"></ion-icon>
+      <ion-title color="light">Usuń konto</ion-title>
     </ion-item>
     
 

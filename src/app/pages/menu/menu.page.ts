@@ -4,6 +4,7 @@ import { taskFilter, TasksService } from 'src/app/tasks/tasks.service'
 import { UserService } from 'src/app/users/user.service'
 import { UsersService } from 'src/app/users/users.service'
 import { NotesService } from 'src/app/notes/notes.service'
+import { App } from '@capacitor/app'
 
 
 import { isDevMode } from '@angular/core'
@@ -26,6 +27,7 @@ export class MenuPage implements OnInit {
 
   ngOnInit() { }
 
+  exitApp = () => App.exitApp()
 
   // account
 

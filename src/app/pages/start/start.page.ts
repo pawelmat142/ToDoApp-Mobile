@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/users/user.service';
+import { App } from '@capacitor/app'
 
 @Component({
   selector: 'app-start',
@@ -16,4 +17,7 @@ export class StartPage implements OnInit {
   get logged(): boolean {
     return !!this.userService.user
   }
+
+  exitApp = () => App.exitApp()
+
 }

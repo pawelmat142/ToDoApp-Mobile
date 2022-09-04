@@ -1,12 +1,14 @@
+import { isDevMode } from '@angular/core'
+const dev = isDevMode()
+
 import { Injectable } from '@angular/core'
 import * as Cordovasqlitedriver from 'localforage-cordovasqlitedriver'
 import { Storage } from '@ionic/storage-angular'
 import { Router } from '@angular/router'
 import { UserService } from '../users/user.service'
 import { UsersService } from '../users/users.service'
-import { isDevMode } from '@angular/core'
-const dev = isDevMode()
 
+import { App } from '@capacitor/app'
 
 @Injectable({
   providedIn: 'root'
