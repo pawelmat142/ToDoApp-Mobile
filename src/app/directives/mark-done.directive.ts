@@ -1,4 +1,4 @@
-import { Directive, HostListener, Input, Output, EventEmitter } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 import { TasksService } from '../tasks/tasks.service';
 
 @Directive({

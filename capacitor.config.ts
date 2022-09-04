@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'todo.drawit.click',
   appName: 'ToDoApp',
   webDir: 'www',
   bundledWebRuntime: false

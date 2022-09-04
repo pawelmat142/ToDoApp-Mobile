@@ -12,20 +12,19 @@ import { HideScrollButtonDirective } from 'src/app/directives/hide-scroll-button
 import { SwipePageDirective } from 'src/app/directives/swipe-page.directive';
 import { ReorderToggleDirective } from 'src/app/directives/reorder-toggle.directive';
 import { LastPipe } from 'src/app/pipes/last.pipe';
+import { SharedDirectivesModule } from 'src/app/directives/shared-directives.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    NotesBoardPageRoutingModule
+    NotesBoardPageRoutingModule,
+    SharedDirectivesModule
   ],
   declarations: [
     NotesBoardPage,
     NoteComponent,
-    HideScrollButtonDirective,
-    SwipePageDirective,
-    ReorderToggleDirective,
     LastPipe
   ]
 })
