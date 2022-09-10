@@ -8,8 +8,6 @@ import { Router } from '@angular/router'
 import { UserService } from '../users/user.service'
 import { UsersService } from '../users/users.service'
 
-import { App } from '@capacitor/app'
-
 @Injectable({
   providedIn: 'root'
 })

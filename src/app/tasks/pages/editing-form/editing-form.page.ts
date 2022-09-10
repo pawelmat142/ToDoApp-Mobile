@@ -14,11 +14,7 @@ export class EditingFormPage implements OnInit, OnDestroy {
 
   task: Task
   addingForm: FormGroup
-  subtasks: string[] = []
-  si: number
-
-  $subtasks: Subtask[] = []
-
+  
   constructor(
     private tasksService: TasksService,
     public router: Router
@@ -28,6 +24,8 @@ export class EditingFormPage implements OnInit, OnDestroy {
     this.task = this.tasksService.tasks
       .find(task => task.id === this.tasksService.editingTaskId)
     this.initForm()
+
+    console.log(this.task)
   }
 
   ngOnDestroy() {
@@ -50,7 +48,7 @@ export class EditingFormPage implements OnInit, OnDestroy {
       this.task.subtasks.forEach((subtask, i) => {
         const s = new FormControl<string>(subtask.name)
         const name = `subtask-${i}`
-        this.subtasks.push(name)
+        this.subtasks.push({name, done: subtask.done})
         this.addingForm.addControl(name, s)
       })
       this.si = this.subtasks.length
@@ -112,11 +110,17 @@ export class EditingFormPage implements OnInit, OnDestroy {
 
   // subtasks
 
+  // subtasks: string[] = []
+  subtasks: Subtask[] = []
+  si: number
+
+  $subtasks: Subtask[] = []
+
   private getSubtasks(): Subtask[] {
-    return this.subtasks.map(s => {
+    return this.subtasks.map((s,i) => {
       return {
-        name: this.addingForm.controls[s].value,
-        done: false
+        name: this.addingForm.controls[s.name].value,
+        done: this.subtasks[i].done
       }
     })
   }
@@ -126,13 +130,16 @@ export class EditingFormPage implements OnInit, OnDestroy {
     const formControl = new FormControl<string>('',[Validators.required, Validators.maxLength(100)])
     this.addingForm.addControl(name, formControl)
     formControl.setValue('')
-    this.subtasks.push(name)
+    this.subtasks.push({name, done: false})
     setTimeout(() => this.subtaskInputReference.last.setFocus(), 200)
   }
 
 
   removeSubtask(name: string): void {
-    this.subtasks = this.subtasks.filter(s => s !== name)
+    console.log('removeSubtask')
+    console.log('name')
+    console.log(name)
+    this.subtasks = this.subtasks.filter(s => s.name !== name)
     setTimeout(() => this.addingForm.removeControl(name), 0)
   }
 

@@ -87,22 +87,22 @@
     <ion-item lines="none" class="item-input">
       
       <ion-label position="floating" color="secondary">Etap {{i+1}}</ion-label>
-      <ion-input type="text" required color="light" #subtaskInputReference formControlName={{subtask?subtask:null}}></ion-input>
+      <ion-input type="text" required color="light" #subtaskInputReference formControlName={{subtask?subtask.name:null}}></ion-input>
       
       <ion-buttons slot="end">
         <ion-icon 
           name="close-circle-outline" 
           size="large"
-          [color]="this.f[subtask]?.invalid && this.f[subtask].touched?'danger':'secondary'"
-          (click)="$event.preventDefault();removeSubtask(subtask)"
+          [color]="this.f[subtask.name]?.invalid && this.f[subtask.name].touched?'danger':'secondary'"
+          (click)="$event.preventDefault();removeSubtask(subtask.name)"
         ></ion-icon>
       </ion-buttons>
       
     </ion-item>
 
-    <ng-container *ngIf="this.f[subtask]?.touched && this.f[subtask].errors">
-      <ion-note *ngIf="this.f[subtask].errors.required" slot="error" color="danger">Uzupełnij lub usuń pole!</ion-note>
-      <ion-note *ngIf="this.f[subtask].errors.maxlength" slot="error" color="danger">Maksymalnie 100 znaków!</ion-note>
+    <ng-container *ngIf="this.f[subtask?.name]?.touched && this.f[subtask.name].errors">
+      <ion-note *ngIf="this.f[subtask.name].errors.required" slot="error" color="danger">Uzupełnij lub usuń pole!</ion-note>
+      <ion-note *ngIf="this.f[subtask.name].errors.maxlength" slot="error" color="danger">Maksymalnie 100 znaków!</ion-note>
     </ng-container>
 
   </ng-container>
