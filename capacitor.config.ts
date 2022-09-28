@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'todo.drawit.click',
-  appName: 'ToDoApp',
+  appName: 'to-do-app',
   webDir: 'www',
   bundledWebRuntime: false
 };

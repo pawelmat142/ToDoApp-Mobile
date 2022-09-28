@@ -7,6 +7,6 @@ export const environment = {
   currentUserToken: '0Lc75b!0NTwY',
 
   // api
-  apiUrl: 'https://todo.drawit.click/api',
+  apiUrl: 'https://todo.pppmmm.pl/api',
 
 };

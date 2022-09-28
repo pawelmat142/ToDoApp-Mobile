@@ -11,7 +11,7 @@ export const environment = {
   currentUserToken: 'currentUserToken',
   
   // apiUrl: 'http://localhost:3333/api',
-  apiUrl: 'https://todo.drawit.click/api',
+  apiUrl: 'https://todo.pppmmm.pl/api',
 };
 
 /*

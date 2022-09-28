@@ -1,6 +1,6 @@
 {
 	"appId": "todo.drawit.click",
-	"appName": "ToDoApp",
+	"appName": "to-do-app",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }
