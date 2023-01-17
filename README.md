@@ -25,12 +25,9 @@ Project is created with:
 
 ## Setup
 
-Ready .apk file may be installed on any Android device. You can download it here:
-`https://drive.google.com/drive/folders/1OpUzcEuO5Mr3DBd4977ORzwrv-EduInr?hl=pl`
+Ready .apk file may be installed on any Android device. You can download it [here](https://drive.google.com/drive/folders/1OpUzcEuO5Mr3DBd4977ORzwrv-EduInr?hl=pl)
 <br />
-
 or 
-
 <br />
 
 To run this project locally follow these steps: 
