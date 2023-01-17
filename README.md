@@ -40,8 +40,8 @@ $ ionic serve
 * it should open `http://localhost:8100/` automatically
 
 <br />
-You can log in with example test account:
-* login: `Test`
-* password: `test`
-
+You can log in with example test account: <br />
+* login: `Test` <br />
+* password: `test` <br />
+<br />
 or just register new accont
