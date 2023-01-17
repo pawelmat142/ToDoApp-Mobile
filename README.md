@@ -8,9 +8,9 @@
 * [Setup](#setup)
 
 ## General info
- This app is mobile version of my [To-Do List](https://github.com/pawelmat142/ToDo-List-Angular). <br />
- This mobile version works with same backend application and API as my Angular version of ToDo List app. <br />
- There is also offline mode feature built with local storage and notes feature. <br />
+ This app is mobile version of my Angular [To-Do List](https://github.com/pawelmat142/ToDo-List-Angular). <br />
+ This mobile version works with same [backend application](https://github.com/pawelmat142/ToDo-List-backend) and API as my Angular version of ToDo List app. <br />
+ There is also implemented notepad feature and offline mode feature built with local storage. <br />
  
  The motivation to do the task was to learn the Ionic Framework and make my ToDo List as mobile app. <br /> 
  I wanted also deep into how to work with device storage and improve my app with offline mode. <br /> 
