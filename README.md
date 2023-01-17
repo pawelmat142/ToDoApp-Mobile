@@ -39,7 +39,7 @@ $ ionic serve
 ```
 * it should open `http://localhost:8100/` automatically
 
-To run this project locally follow these steps: 
+You can log in with example test account: 
 * login: Test
 * password: test
 
