@@ -42,11 +42,5 @@ $ ionic serve
 You can log in with example test account: 
 * login: Test
 * password: test
-
 <br />
-<br />
-You can log in with example test account:
-* login: Test
-* password: test
-
 or just register new accont
