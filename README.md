@@ -8,8 +8,9 @@
 * [Setup](#setup)
 
 ## General info
- This app will be mobile version of my [To-Do List](https://github.com/pawelmat142/ToDo-List-Angular) and is in progress. <br />
- At the moment it works with device storage and I'm working on integrating the app with the API of my backend ToDo List app. <br />
+ This app is mobile version of my [To-Do List](https://github.com/pawelmat142/ToDo-List-Angular). <br />
+ This mobile version works with same backend application and API as my Angular version of ToDo List app. <br />
+ There is also offline mode feature built with local storage and notes feature. <br />
  
  The motivation to do the task was to learn the Ionic Framework and make my ToDo List as mobile app. <br /> 
  I wanted also deep into how to work with device storage and improve my app with offline mode. <br /> 
@@ -23,6 +24,15 @@ Project is created with:
 * Ionic Storage
 
 ## Setup
+
+Ready .apk file may be installed on any Android device. You can download it here:
+`https://drive.google.com/drive/folders/1OpUzcEuO5Mr3DBd4977ORzwrv-EduInr?hl=pl`
+<br />
+
+or 
+
+<br />
+
 To run this project locally follow these steps: 
 * create directory named as you wish and open it with IDE
 * install it locally using npm:
