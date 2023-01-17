@@ -39,6 +39,10 @@ $ ionic serve
 ```
 * it should open `http://localhost:8100/` automatically
 
+To run this project locally follow these steps: 
+* create directory named as you wish and open it with IDE
+* install it locally using npm:
+
 <br />
 You can log in with example test account: 
 * login: Test
