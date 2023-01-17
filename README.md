@@ -46,7 +46,7 @@ You can log in with example test account:
 <br />
 <br />
 You can log in with example test account:
-* login: `Test`
-* password: `test`
+* login: Test
+* password: test
 <br />
 or just register new accont
