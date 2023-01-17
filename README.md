@@ -44,7 +44,7 @@ You can log in with example test account:
 * password: test
 
 <br />
-You can log in with example test account: 
+You can log in with example test account:
 * login: Test
 * password: test
 <br />
